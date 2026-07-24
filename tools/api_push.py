@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "金句卡自适应：宽度贴合图片比例，消除两侧宽边"
+MSG = "真机安全区适配：顶部/底部 env(safe-area-inset)，真机隐藏仿真状态栏与灵动岛"
 CHANGED = ["demo/css/app.css", "tools/api_push.py"]
 ADDED = []
 DELETED = []

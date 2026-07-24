@@ -74,7 +74,7 @@ body{
   scrollbar-width:none;background:var(--bg)}
 .screen::-webkit-scrollbar{display:none}
 .screen.active{opacity:1;visibility:visible;transform:none;z-index:10}
-.screen .inner{padding:66px 20px 108px;min-height:100%;position:relative}
+.screen .inner{padding:calc(66px + env(safe-area-inset-top)) 20px calc(108px + env(safe-area-inset-bottom));min-height:100%;position:relative}
 .screen.active .rise{animation:rise .55s cubic-bezier(.22,.9,.32,1) both}
 .screen.active .rise.d1{animation-delay:.06s}.screen.active .rise.d2{animation-delay:.13s}
 .screen.active .rise.d3{animation-delay:.2s}.screen.active .rise.d4{animation-delay:.27s}
@@ -93,13 +93,13 @@ body{
   background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);color:var(--ink-2)}
 .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(190,126,143,.35),transparent);margin:14px 0}
 /* ---- Tabbar（液态玻璃 Liquid Glass） ---- */
-.tabbar{position:absolute;left:14px;right:14px;bottom:16px;height:66px;z-index:50;
+.tabbar{position:absolute;left:14px;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));height:66px;z-index:50;
   border-radius:26px;overflow:visible;
   box-shadow:0 6px 6px rgba(90,50,70,.16),0 0 22px rgba(90,50,70,.08);
   display:flex;align-items:center;justify-content:space-around;padding:0 8px;
   transition:opacity .3s,visibility .3s,transform .45s cubic-bezier(.175,.885,.32,2.2)}
 /* 胶囊下方到底边的磨砂遮挡，任何底色页面都适用 */
-.tabbar::before{content:'';position:absolute;left:-14px;right:-14px;top:calc(100% - 1px);height:18px;z-index:-1;
+.tabbar::before{content:'';position:absolute;left:-14px;right:-14px;top:calc(100% - 1px);height:calc(18px + env(safe-area-inset-bottom));z-index:-1;
   background:rgba(250,248,246,.55);backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
 .tabbar:hover{transform:scale(1.018)}
 .tabbar .lg-effect{position:absolute;inset:0;z-index:0;isolation:isolate;
@@ -117,7 +117,7 @@ body{
 .tabbar .tab.on{position:relative}
 .tabbar .tab.on::after{content:'';position:absolute;bottom:0;width:14px;height:3px;border-radius:3px;background:var(--rose)}
 /* ---- 全局悬浮顶栏（iOS 毛玻璃） ---- */
-.pg-head{position:absolute;top:0;left:0;right:0;height:104px;padding-top:48px;z-index:40;
+.pg-head{position:absolute;top:0;left:0;right:0;height:calc(104px + env(safe-area-inset-top));padding-top:calc(48px + env(safe-area-inset-top));z-index:40;
   display:flex;align-items:center;justify-content:center;
   background:rgba(250,246,249,.68);
   backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
@@ -140,7 +140,7 @@ body{
 .pg-head.dark .pg-back svg{stroke:#fff}
 /* 子页面内容避开悬浮顶栏 */
 #s-prediag .inner,#s-report .inner,#s-consultants .inner,#s-cdetail .inner,
-#s-sleep .inner,#s-content .inner,#s-me .inner{padding-top:118px}
+#s-sleep .inner,#s-content .inner,#s-me .inner{padding-top:calc(118px + env(safe-area-inset-top))}
 /* ---- 聊天气泡 ---- */
 .msg{max-width:80%;padding:12px 15px;border-radius:20px;font-size:14px;line-height:1.75;position:relative;word-break:break-word}
 .msg.ai{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);border-bottom-left-radius:6px;
@@ -184,6 +184,7 @@ body{
   .phone::before,.phone::after{display:none}
   .phone-screen{border-radius:0}
   .island{display:none}
+  .statusbar{display:none}
 }
 
 /* ============ 各屏专属 ============ */
@@ -192,7 +193,7 @@ body{
 /* -- 首页 -- */
 #s-home{background-image:url('../../assets/bg-home.webp'),linear-gradient(180deg,#FBE9E2,#F5E3EE);
   background-size:cover,cover;background-position:center top;background-repeat:no-repeat}
-#s-home .inner{z-index:1;padding-top:74px}
+#s-home .inner{z-index:1;padding-top:calc(74px + env(safe-area-inset-top))}
 /* -- 首页（3D 西西 · 气泡对话式） -- */
 #s-home .inner{display:flex;flex-direction:column}
 .h3-line{font-family:var(--serif);font-size:23px;font-weight:900;line-height:1.4;
@@ -299,8 +300,8 @@ body{
   radial-gradient(520px 420px at 45% 92%,rgba(228,233,219,.8) 0%,transparent 70%),
   radial-gradient(300px 260px at 70% 8%,rgba(238,230,222,.9) 0%,transparent 72%),
   #EDEBE8}
-#s-chat .inner{padding-top:116px;padding-bottom:150px}
-.chat-top{position:absolute;top:0;left:0;right:0;height:104px;padding-top:48px;z-index:40;
+#s-chat .inner{padding-top:calc(116px + env(safe-area-inset-top));padding-bottom:150px}
+.chat-top{position:absolute;top:0;left:0;right:0;height:calc(104px + env(safe-area-inset-top));padding-top:calc(48px + env(safe-area-inset-top));z-index:40;
   display:flex;align-items:center;justify-content:center;
   background:rgba(250,246,249,.68);
   backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
