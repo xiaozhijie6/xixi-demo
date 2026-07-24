@@ -3,8 +3,8 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "资源加版本号：强制移动端刷新缓存（CSS/JS）"
-CHANGED = ["demo/index.html", "tools/api_push.py"]
+MSG = "首页金句卡定版：横排双栏（左文右图，图完整，卡高196）"
+CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
 

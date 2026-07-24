@@ -799,7 +799,7 @@ const HOME_MOOD_REPLY={
     share.classList.add('show');
   };
   document.getElementById('homeShareBtn').addEventListener('click',e=>{e.stopPropagation();openShare();});
-  document.querySelector('#s-home .qcard').addEventListener('click',openShare);
+  document.querySelector('#s-home .qrow').addEventListener('click',openShare);
   document.getElementById('shareClose').onclick=()=>share.classList.remove('show');
   document.getElementById('shareSave').onclick=()=>{share.classList.remove('show');toast('分享卡已保存（演示）');};
   share.addEventListener('click',e=>{if(e.target===share)share.classList.remove('show');});
