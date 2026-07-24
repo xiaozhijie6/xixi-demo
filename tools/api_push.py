@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "金句卡图完整展示：卡片改为3:4原始比例，不再裁剪"
+MSG = "金句卡改画框式：图完整不裁剪，高度收回330px，首屏可见冥想/助眠入口"
 CHANGED = ["demo/css/app.css", "tools/api_push.py"]
 ADDED = []
 DELETED = []
