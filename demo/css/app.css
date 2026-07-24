@@ -243,15 +243,44 @@ body{
 .wave i:nth-child(3){height:7px;animation-delay:.24s}.wave i:nth-child(4){height:12px;animation-delay:.36s}
 .wave i:nth-child(5){height:5px;animation-delay:.48s}
 @keyframes wv{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
-.h3-ck{display:flex;align-items:center;gap:10px;padding:15px 2px;margin-top:16px;flex:none;
-  border-top:1px solid rgba(140,110,125,.14);border-bottom:1px solid rgba(140,110,125,.14)}
-.h3-ck .lb{font-size:11px;color:var(--ink-2);flex:none}
+/* 玻璃心情日历：日历 × 情绪打卡结合体（液态玻璃质感） */
+.gcal{position:relative;border-radius:26px;overflow:hidden;flex:none;margin-top:16px;
+  box-shadow:0 24px 55px rgba(150,120,150,.28)}
+.gcal .gc-bg{position:absolute;inset:0;
+  background:
+    radial-gradient(200px 150px at 12% 18%,rgba(216,167,182,.8),transparent 70%),
+    radial-gradient(220px 170px at 88% 12%,rgba(180,155,224,.75),transparent 70%),
+    radial-gradient(240px 200px at 55% 100%,rgba(244,214,178,.8),transparent 70%),
+    linear-gradient(150deg,#F3E4E8,#E5DDF2)}
+.gcal .gc-in{position:relative;margin:1.5px;border-radius:25px;padding:15px 16px 13px;
+  background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.14));
+  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.15)}
+.gcal .gc-top{display:flex;align-items:flex-end;justify-content:space-between}
+.gcal .gc-date{display:flex;align-items:flex-end;gap:10px}
+.gcal .gc-date b{font-family:var(--serif);font-size:40px;font-weight:900;line-height:.95;color:#57424B}
+.gcal .gc-date span{font-size:11px;color:var(--ink-2);padding-bottom:4px;letter-spacing:.06em}
+.gcal .gc-streak{font-size:10px;font-weight:700;color:var(--rose-deep);
+  background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);
+  border-radius:999px;padding:4px 11px;backdrop-filter:blur(6px)}
+.gcal .gc-week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:13px}
+.gcal .wc{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0 7px;border-radius:14px;
+  background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.4)}
+.gcal .wc .wd{font-size:9px;color:var(--ink-3)}
+.gcal .wc .dy{font-size:12px;font-weight:600;color:#57424B}
+.gcal .wc .md{width:7px;height:7px;border-radius:50%;background:var(--mc,rgba(255,255,255,.5))}
+.gcal .wc.fut{opacity:.45}
+.gcal .wc.today{background:rgba(255,255,255,.85);border-color:rgba(255,255,255,.95);
+  box-shadow:0 6px 16px rgba(150,110,130,.22);outline:1.5px solid var(--rose-deep)}
+.gcal .gc-pick{margin-top:13px;padding-top:11px;border-top:1px dashed rgba(140,115,120,.18)}
+.gcal .gc-cap{display:block;font-size:10px;color:var(--ink-2);letter-spacing:.08em;margin-bottom:9px;text-align:center}
 .c-moods{flex:1;display:flex;gap:3px}
 .c-moods .m{flex:1;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-family:var(--sans)}
 .c-moods .m svg{width:26px;height:26px;padding:6px;border-radius:50%;background:var(--mc);stroke:#fff;fill:none;
   stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.85;transition:.2s;display:block}
 .c-moods .m.on svg{outline:2px solid var(--rose-deep);outline-offset:2px;opacity:1;transform:scale(1.08)}
-.h3-ck .streak{font-size:9.5px;color:var(--ink-3);flex:none}
+/* 旧打卡行样式已移除 */
 .h3-duo{display:flex;gap:10px;margin-top:14px;flex:none}
 .h3-duo .ph{flex:1;height:94px;border-radius:18px;overflow:hidden;position:relative;cursor:pointer;
   box-shadow:var(--shadow);border:none;font-family:var(--sans);padding:0;text-align:left;transition:transform .15s}

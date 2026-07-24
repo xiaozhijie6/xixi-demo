@@ -3,10 +3,10 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "仓库瘦身：删除 playground 对比稿、旧问卷版、concerns 探索页、重复脚本与无用图片"
-CHANGED = ["tools/api_push.py"]
+MSG = "首页新增玻璃心情日历：日历×情绪打卡结合体，液态玻璃质感（backdrop-filter）"
+CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
-DELETED = ['assets/onboard/v2-mood.png', 'assets/onboard/v2-name.png', 'assets/onboard/v2-prefer.png', 'assets/onboard/v2-relation.png', 'assets/onboard/v2-troubles.png', 'assets/onboard/v3-mood.png', 'assets/onboard/v3-name.png', 'assets/onboard/v3-prefer.png', 'assets/onboard/v3-relation.png', 'assets/onboard/v3-troubles.png', 'assets/onboard/v4-botanical.png', 'assets/onboard/v4-hero.png', 'assets/onboard/v4-shapes.png', 'demo/companion-variants.html', 'demo/concerns/index.html', 'demo/concerns/v1.html', 'demo/concerns/v2.html', 'demo/concerns/v3.html', 'demo/concerns/v4-flow.html', 'demo/concerns/v4.html', 'demo/concerns/v5.html', 'demo/concerns/v6.html', 'demo/home-3d-variants.html', 'demo/home-final-variants.html', 'demo/js/onboard-core.js', 'demo/mood-calendar.html', 'demo/mood-hero.html', 'demo/onboard-v2.html', 'demo/onboard-v3.html', 'demo/onboard.html', 'shot_demo.py', 'tools/batch_onboard.json', 'tools/gen_concerns.py', 'tools/shot_concerns.py', 'tools/shot_home3d_variants.py', 'verify_center.py']
+DELETED = []
 
 def gh(args, payload=None):
     cmd = ["gh", "api"] + args

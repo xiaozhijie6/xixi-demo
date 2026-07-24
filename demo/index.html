@@ -136,16 +136,26 @@
           <img class="q-img" id="homeBgi" src="../assets/share-card-bg.webp" alt="">
           <button class="q-share" id="homeShareBtn"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>分享</button>
         </div>
-        <div class="h3-ck rise d3">
-          <span class="lb">今日心情</span>
-          <div class="c-moods" id="homeMoods">
-            <button class="m" data-m="平静" style="--mc:#E9C9D3"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg></button>
-            <button class="m" data-m="委屈" style="--mc:#CBD8EE"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></button>
-            <button class="m" data-m="焦虑" style="--mc:#F3D9B8"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></button>
-            <button class="m" data-m="烦躁" style="--mc:#F0C4BC"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg></button>
-            <button class="m" data-m="难过" style="--mc:#D7CBE9"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg></button>
+        <!-- 玻璃心情日历：日历 × 情绪打卡结合体 -->
+        <div class="gcal rise d3" id="homeGcal">
+          <div class="gc-bg"></div>
+          <div class="gc-in">
+            <div class="gc-top">
+              <div class="gc-date"><b id="gcDay">24</b><span id="gcYM">7月 · 星期五</span></div>
+              <div class="gc-streak" id="homeStreak">连续记录 6 天</div>
+            </div>
+            <div class="gc-week" id="gcWeek"></div>
+            <div class="gc-pick">
+              <span class="gc-cap">此刻感觉怎么样？</span>
+              <div class="c-moods" id="homeMoods">
+                <button class="m" data-m="平静" style="--mc:#DCC6C0"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg></button>
+                <button class="m" data-m="委屈" style="--mc:#C7D0DA"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></button>
+                <button class="m" data-m="焦虑" style="--mc:#E4D6BC"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></button>
+                <button class="m" data-m="烦躁" style="--mc:#DFBCB2"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg></button>
+                <button class="m" data-m="难过" style="--mc:#CDC2D4"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg></button>
+              </div>
+            </div>
           </div>
-          <span class="streak" id="homeStreak">已连续 6 天</span>
         </div>
         <div class="h3-duo rise d4">
           <button class="ph" id="homeMed"><img src="../assets/conc-sky.webp" alt=""><div class="vv"></div><div class="tx"><b>冥想呼吸</b><span>3 分钟 · 平复情绪</span></div></button>

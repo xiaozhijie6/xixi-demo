@@ -820,12 +820,33 @@ const HOME_MOOD_REPLY={
     xShow('wow',1300);
     toast(HOME_POKES[Math.floor(Math.random()*HOME_POKES.length)]);
   });
+  /* 玻璃心情日历：周视图（日历 × 打卡结合体） */
+  const GC_MOODS=['平静','#DCC6C0','委屈','#C7D0DA','焦虑','#E4D6BC','烦躁','#DFBCB2','难过','#CDC2D4'];
+  const gcNow=new Date(),gcDow=(gcNow.getDay()+6)%7,gcToday=gcNow.getDate();
+  document.getElementById('gcDay').textContent=gcToday;
+  document.getElementById('gcYM').textContent=(gcNow.getMonth()+1)+'月 · 星期'+'日一二三四五六'[gcNow.getDay()];
+  const gcHist={};
+  for(let i=0;i<gcDow;i++)gcHist[gcToday-gcDow+i]=(i*3+1)%5;
+  const gcEl=document.getElementById('gcWeek');
+  function renderGcWeek(){
+    const WD=['一','二','三','四','五','六','日'];let h='';
+    for(let i=0;i<7;i++){
+      const d=gcToday-gcDow+i,isT=i===gcDow,fut=i>gcDow,mi=fut?null:gcHist[d];
+      h+='<div class="wc'+(isT?' today':'')+(fut?' fut':'')+'">'
+        +'<span class="wd">'+WD[i]+'</span><span class="dy">'+d+'</span>'
+        +'<i class="md" style="'+(mi!=null?'--mc:'+GC_MOODS[mi*2+1]:'')+'"></i></div>';
+    }
+    gcEl.innerHTML=h;
+  }
+  renderGcWeek();
   /* 情绪打卡 */
   document.getElementById('homeMoods').addEventListener('click',e=>{
     const b=e.target.closest('.m');if(!b)return;
     document.querySelectorAll('#homeMoods .m').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');
-    document.getElementById('homeStreak').textContent='已连续 7 天 · 今日已打卡';
+    gcHist[gcToday]=['平静','委屈','焦虑','烦躁','难过'].indexOf(b.dataset.m);
+    renderGcWeek();
+    document.getElementById('homeStreak').textContent='连续记录 7 天';
     toast(HOME_MOOD_REPLY[b.dataset.m]||'打卡成功');
     xShow('love',2000);
   });
