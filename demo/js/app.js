@@ -753,14 +753,14 @@ go._cur = document.querySelector('.screen.active')?.id || 's-launch';
 /* ============ 首页：3D 西西 · 气泡问候 · 金句分享卡 · 情绪打卡 ============ */
 let HOME_NAME='小美';
 const HOME_QUOTES=[
-  ['我们曾如此期盼外界的认可，到最后才知道，世界是自己的，与他人毫无关系。','—— 杨绛'],
-  ['爱自己，是终身浪漫的开始。','—— 王尔德'],
-  ['温柔不是妥协，是见过风雨之后的选择。','—— 西西'],
-  ['你照顾了所有人，也要记得被自己照顾。','—— 西西'],
-  ['真正的强大，是允许自己偶尔不强大。','—— 西西'],
-  ['人间烟火气，最抚凡人心。','—— 汪曾祺'],
-  ['把日子过成自己喜欢的样子，什么时候开始都不晚。','—— 西西'],
-  ['愿你成为自己的太阳，无需凭借谁的光。','—— 西西']
+  ['我们曾如此期盼外界的认可，到最后才知道，世界是自己的，与他人毫无关系。','—— 杨绛','q1'],
+  ['爱自己，是终身浪漫的开始。','—— 王尔德','q2'],
+  ['温柔不是妥协，是见过风雨之后的选择。','—— 西西','q3'],
+  ['你照顾了所有人，也要记得被自己照顾。','—— 西西','q4'],
+  ['真正的强大，是允许自己偶尔不强大。','—— 西西','q5'],
+  ['人间烟火气，最抚凡人心。','—— 汪曾祺','q6'],
+  ['把日子过成自己喜欢的样子，什么时候开始都不晚。','—— 西西','q7'],
+  ['愿你成为自己的太阳，无需凭借谁的光。','—— 西西','q8']
 ];
 const HOME_POKES=['西西蹭了蹭你 ◡̈','西西绕着你转了一圈','被你戳得晃了晃','西西眨了眨眼',
   '再戳我就要飘走啦','西西听见了你的召唤','我在，一直都在'];
@@ -783,16 +783,19 @@ const HOME_MOOD_REPLY={
   window._renderHomeBub=renderBub;
   renderBub();
   setInterval(()=>{bi=(bi+1)%BUBS.length;renderBub();},5000);
-  /* 金句：点文字换一句，点卡片/分享钮出分享卡 */
-  let qi=0;
+  /* 金句：每日一句（按日期自动轮换，图文搭配，不可手动切换） */
+  const dayOfYear=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/864e5);
+  const qi=dayOfYear%HOME_QUOTES.length;
+  const qImg=HOME_QUOTES[qi][2];
   const qt=document.getElementById('homeQTxt'),qa=document.getElementById('homeQAu');
-  const renderQ=()=>{qt.textContent='「'+HOME_QUOTES[qi][0]+'」';qa.textContent=HOME_QUOTES[qi][1];};
-  renderQ();
-  qt.addEventListener('click',e=>{e.stopPropagation();qi=(qi+1)%HOME_QUOTES.length;renderQ();});
+  document.getElementById('homeBgi').src='../assets/quotes/'+qImg+'.webp';
+  qt.textContent='「'+HOME_QUOTES[qi][0]+'」';
+  qa.textContent=HOME_QUOTES[qi][1];
   const share=document.getElementById('homeShare');
   const openShare=()=>{
     document.getElementById('shareQ').textContent='「'+HOME_QUOTES[qi][0]+'」';
     document.getElementById('shareA').textContent=HOME_QUOTES[qi][1];
+    document.getElementById('shareBgi').src='../assets/quotes/'+qImg+'.webp';
     share.classList.add('show');
   };
   document.getElementById('homeShareBtn').addEventListener('click',e=>{e.stopPropagation();openShare();});
