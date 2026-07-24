@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "金句卡改画框式：图完整不裁剪，高度收回330px，首屏可见冥想/助眠入口"
+MSG = "金句卡自适应：宽度贴合图片比例，消除两侧宽边"
 CHANGED = ["demo/css/app.css", "tools/api_push.py"]
 ADDED = []
 DELETED = []
