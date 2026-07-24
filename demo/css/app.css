@@ -251,26 +251,26 @@ body{
   box-shadow:0 20px 45px rgba(150,125,135,.22)}
 .gcal .gc-bg{position:absolute;inset:0;
   background:linear-gradient(rgba(250,247,243,.58),rgba(250,247,243,.58)),url('../../assets/conc-botanic.webp') center/cover}
-.gcal .gc-in{position:relative;margin:1.5px;border-radius:23px;padding:14px 15px;height:calc(100% - 3px);
+.gcal .gc-in{position:relative;margin:1.5px;border-radius:23px;padding:16px 17px;height:calc(100% - 3px);
   display:flex;flex-direction:column;
   background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.22));
   backdrop-filter:blur(14px) saturate(1.25);-webkit-backdrop-filter:blur(14px) saturate(1.25);
   border:1px solid rgba(255,255,255,.6);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.12)}
-.gcal .gc-day{display:flex;align-items:baseline;gap:8px}
-.gcal .gc-day b{font-family:var(--serif);font-size:34px;font-weight:900;line-height:1;color:#57424B}
-.gcal .gc-day span{font-size:10px;color:var(--ink-2);letter-spacing:.05em}
-.gcal .gc-today{display:flex;align-items:center;gap:8px;margin-top:11px}
-.gcal .gc-mi{width:30px;height:30px;border-radius:50%;flex:none;background:var(--mc,rgba(255,255,255,.6));
+.gcal .gc-day{display:flex;align-items:baseline;gap:9px}
+.gcal .gc-day b{font-family:var(--serif);font-size:46px;font-weight:900;line-height:1;color:#57424B}
+.gcal .gc-day span{font-size:12px;color:var(--ink-2);letter-spacing:.05em}
+.gcal .gc-today{display:flex;align-items:center;gap:9px;margin-top:13px}
+.gcal .gc-mi{width:38px;height:38px;border-radius:50%;flex:none;background:var(--mc,rgba(255,255,255,.6));
   display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.85)}
-.gcal .gc-mi svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.gcal .gc-mi svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .gcal .gc-mi.none svg{stroke:var(--ink-3)}
-.gcal .gc-ml{font-size:12px;font-weight:600;color:#57424B}
-.gcal .gc-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px}
-.gcal .gc-streak{font-size:9.5px;font-weight:700;color:var(--rose-deep);
+.gcal .gc-ml{font-size:13.5px;font-weight:600;color:#57424B}
+.gcal .gc-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:13px}
+.gcal .gc-streak{font-size:10.5px;font-weight:700;color:var(--rose-deep);
   background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.75);
-  border-radius:999px;padding:3px 10px;backdrop-filter:blur(6px)}
-.gcal .gc-more{font-size:10px;color:var(--ink-2)}
+  border-radius:999px;padding:4px 12px;backdrop-filter:blur(6px)}
+.gcal .gc-more{font-size:11px;color:var(--ink-2)}
 /* ---- 月历详细页 ---- */
 .gcal.mcal{flex:none;cursor:default}
 .gcal.mcal .gc-in{padding:16px}
@@ -303,8 +303,8 @@ body{
 .h3-duo .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .h3-duo .ph .vv{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,252,250,.08),rgba(255,251,248,.62))}
 .h3-duo .ph .tx{position:absolute;left:12px;bottom:10px}
-.h3-duo .ph .tx b{font-size:12.5px;display:block}
-.h3-duo .ph .tx span{font-size:9.5px;color:var(--ink-2)}
+.h3-duo .ph .tx b{font-size:13.5px;display:block}
+.h3-duo .ph .tx span{font-size:10.5px;color:var(--ink-2)}
 .h3-foot{margin-top:auto;text-align:center;font-size:9.5px;color:var(--ink-3);padding:14px 0 2px;letter-spacing:.14em}
 /* 首页金句分享卡弹层 */
 .h3-share{position:absolute;inset:0;z-index:70;display:flex;flex-direction:column;align-items:center;justify-content:center;
