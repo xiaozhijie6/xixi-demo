@@ -220,7 +220,7 @@ body{
 .hbub .eq i:nth-child(3){height:6px;animation-delay:.3s}
 .hbub .eq i:nth-child(4){height:9px;animation-delay:.45s}
 @keyframes h3eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
-.qcard{position:relative;height:300px;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;flex:none}
+.qcard{position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;flex:none;aspect-ratio:3/4}
 .qcard .bgi{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .qcard .qv{position:absolute;inset:0;padding:22px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .qcard .q-lb{font-size:9.5px;letter-spacing:.26em;color:var(--ink-2);font-weight:600}

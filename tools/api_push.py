@@ -3,11 +3,9 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "每日一句：图文搭配（8张定制配图），按日期自动轮换，移除手动切换"
-CHANGED = ["demo/index.html", "demo/js/app.js", "demo/css/app.css"]
-ADDED = ["assets/quotes/q1.webp", "assets/quotes/q2.webp", "assets/quotes/q3.webp", "assets/quotes/q4.webp",
-         "assets/quotes/q5.webp", "assets/quotes/q6.webp", "assets/quotes/q7.webp", "assets/quotes/q8.webp",
-         "tools/api_push.py"]
+MSG = "金句卡图完整展示：卡片改为3:4原始比例，不再裁剪"
+CHANGED = ["demo/css/app.css", "tools/api_push.py"]
+ADDED = []
 DELETED = []
 
 def gh(args, payload=None):
