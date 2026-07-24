@@ -3,8 +3,8 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "顶部磨砂条：滚动时内容在其下淡出，不再被灵动岛生硬遮挡"
-CHANGED = ["demo/css/app.css", "tools/api_push.py"]
+MSG = "资源加版本号：强制移动端刷新缓存（CSS/JS）"
+CHANGED = ["demo/index.html", "tools/api_push.py"]
 ADDED = []
 DELETED = []
 
