@@ -37,7 +37,7 @@ document.addEventListener('visibilitychange', () => {
 /* ============ 路由 ============ */
 const SCREENS=[['s-launch','启动页'],['s-onboard','问卷页'],['s-summary','汇总页'],['s-home','首页'],['s-chat','AI树洞'],['s-prediag','预诊断'],
   ['s-report','诊断报告'],['s-consultants','咨询师列表'],['s-cdetail','咨询师详情'],
-  ['s-sleep','失眠专区'],['s-content','每日成长'],['s-me','我的']];
+  ['s-sleep','失眠专区'],['s-content','每日成长'],['s-me','我的'],['s-moodcal','心情月历']];
 const qnav=document.getElementById('quicknav');
 SCREENS.forEach(([id,name])=>{
   const b=document.createElement('button');b.textContent=name;
@@ -62,7 +62,7 @@ const TAB_SCREENS=['s-home','s-content','s-consultants','s-me'];
 /* 子页面共享顶栏配置：标题 / 返回目标 / 深色 */
 const PG_HEAD={'s-prediag':['AI 预诊断','s-chat'], 's-report':['预诊断完成','s-home'],
   's-consultants':['真人咨询','s-home'], 's-cdetail':['咨询师详情','s-consultants'],
-  's-sleep':['失眠关怀专区','s-home',1], 's-content':['每日成长','s-home'], 's-me':['我的','s-home']};
+  's-sleep':['失眠关怀专区','s-home',1], 's-content':['每日成长','s-home'], 's-me':['我的','s-home'], 's-moodcal':['心情月历','s-home']};
 function go(id){
   if(go._cur===id)return;
   const prev=go._cur;
@@ -820,33 +820,59 @@ const HOME_MOOD_REPLY={
     xShow('wow',1300);
     toast(HOME_POKES[Math.floor(Math.random()*HOME_POKES.length)]);
   });
-  /* 玻璃心情日历：周视图（日历 × 打卡结合体） */
-  const GC_MOODS=['平静','#DCC6C0','委屈','#C7D0DA','焦虑','#E4D6BC','烦躁','#DFBCB2','难过','#CDC2D4'];
-  const gcNow=new Date(),gcDow=(gcNow.getDay()+6)%7,gcToday=gcNow.getDate();
-  document.getElementById('gcDay').textContent=gcToday;
-  document.getElementById('gcYM').textContent=(gcNow.getMonth()+1)+'月 · 星期'+'日一二三四五六'[gcNow.getDay()];
+  /* 心情日历：首页紧凑卡 + 月历详细页 */
+  const GCM={'平静':['#DCC6C0','<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>',5],
+    '委屈':['#C7D0DA','<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',3],
+    '焦虑':['#E4D6BC','<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',2],
+    '烦躁':['#DFBCB2','<path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/>',2],
+    '难过':['#CDC2D4','<path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/>',1]};
+  const gcNames=Object.keys(GCM);
+  const gcNow=new Date(),gcY=gcNow.getFullYear(),gcMo=gcNow.getMonth(),gcToday=gcNow.getDate();
+  const DIM=new Date(gcY,gcMo+1,0).getDate(),FIRST=(new Date(gcY,gcMo,1).getDay()+6)%7;
   const gcHist={};
-  for(let i=0;i<gcDow;i++)gcHist[gcToday-gcDow+i]=(i*3+1)%5;
-  const gcEl=document.getElementById('gcWeek');
-  function renderGcWeek(){
-    const WD=['一','二','三','四','五','六','日'];let h='';
-    for(let i=0;i<7;i++){
-      const d=gcToday-gcDow+i,isT=i===gcDow,fut=i>gcDow,mi=fut?null:gcHist[d];
-      h+='<div class="wc'+(isT?' today':'')+(fut?' fut':'')+'">'
-        +'<span class="wd">'+WD[i]+'</span><span class="dy">'+d+'</span>'
-        +'<i class="md" style="'+(mi!=null?'--mc:'+GC_MOODS[mi*2+1]:'')+'"></i></div>';
-    }
-    gcEl.innerHTML=h;
+  for(let d=1;d<gcToday;d++)gcHist[d]=(d*7+gcMo*3)%5;
+  document.getElementById('gcDay').textContent=gcToday;
+  document.getElementById('gcYM').textContent=(gcMo+1)+'月 · 星期'+'日一二三四五六'[gcNow.getDay()];
+  function renderHomeGc(){
+    const mi=gcHist[gcToday],n=mi!=null?gcNames[mi]:null;
+    const miEl=document.getElementById('gcMi'),mlEl=document.getElementById('gcMl');
+    if(n){miEl.classList.remove('none');miEl.style.setProperty('--mc',GCM[n][0]);
+      miEl.innerHTML='<svg viewBox="0 0 24 24">'+GCM[n][1]+'</svg>';
+      mlEl.textContent='今天 · '+n;}
+    else{miEl.classList.add('none');miEl.style.removeProperty('--mc');
+      miEl.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
+      mlEl.textContent='还没记心情';}
   }
-  renderGcWeek();
-  /* 情绪打卡 */
-  document.getElementById('homeMoods').addEventListener('click',e=>{
+  function renderMcal(){
+    const t=document.getElementById('mcTitle');if(!t)return;
+    t.textContent=(gcMo+1)+'月 · 心情月历';
+    let h='';
+    for(let i=0;i<FIRST;i++)h+='<div class="mc-cell fut"></div>';
+    for(let d=1;d<=DIM;d++){
+      const mi=gcHist[d],isT=d===gcToday,fut=d>gcToday;
+      h+='<div class="mc-cell'+(isT?' today':'')+(fut?' fut':'')+'">'+d
+        +(mi!=null?'<i class="dot" style="--mc:'+GCM[gcNames[mi]][0]+'"></i>':'')+'</div>';
+    }
+    document.getElementById('mcGrid').innerHTML=h;
+    const dow=(gcNow.getDay()+6)%7,pts=[];
+    for(let i=0;i<7;i++){
+      const d=gcToday-dow+i,mi=gcHist[d];
+      const sc=mi!=null?GCM[gcNames[mi]][2]:3;
+      pts.push([18+i*47,62-(sc-1)*12,mi]);
+    }
+    document.getElementById('mcTrend').innerHTML='<polyline points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'"/>'
+      +pts.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" fill="'+(p[2]!=null?GCM[gcNames[p[2]]][0]:'#fff')+'"/>').join('');
+    const sel=gcHist[gcToday];
+    document.querySelectorAll('#mcMoods .m').forEach(x=>x.classList.toggle('on',x.dataset.m===gcNames[sel]));
+  }
+  renderHomeGc();renderMcal();
+  /* 详细页打卡 */
+  document.getElementById('mcMoods').addEventListener('click',e=>{
     const b=e.target.closest('.m');if(!b)return;
-    document.querySelectorAll('#homeMoods .m').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');
-    gcHist[gcToday]=['平静','委屈','焦虑','烦躁','难过'].indexOf(b.dataset.m);
-    renderGcWeek();
+    gcHist[gcToday]=gcNames.indexOf(b.dataset.m);
+    renderHomeGc();renderMcal();
     document.getElementById('homeStreak').textContent='连续记录 7 天';
+    document.getElementById('mcStreak').textContent='连续记录 7 天';
     toast(HOME_MOOD_REPLY[b.dataset.m]||'打卡成功');
     xShow('love',2000);
   });

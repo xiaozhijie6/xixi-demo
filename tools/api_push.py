@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "首页新增玻璃心情日历：日历×情绪打卡结合体，液态玻璃质感（backdrop-filter）"
+MSG = "心情日历改版：首页左卡（日期+今日情绪）右列（冥想/助眠上下排），玻璃垫图磨砂高短调，新增月历详细页"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []

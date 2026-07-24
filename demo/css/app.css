@@ -145,7 +145,7 @@ body{
 .pg-head.dark .pg-back svg{stroke:#fff}
 /* 子页面内容避开悬浮顶栏 */
 #s-prediag .inner,#s-report .inner,#s-consultants .inner,#s-cdetail .inner,
-#s-sleep .inner,#s-content .inner,#s-me .inner{padding-top:calc(118px + env(safe-area-inset-top))}
+#s-sleep .inner,#s-content .inner,#s-me .inner,#s-moodcal .inner{padding-top:calc(118px + env(safe-area-inset-top))}
 /* ---- 聊天气泡 ---- */
 .msg{max-width:80%;padding:12px 15px;border-radius:20px;font-size:14px;line-height:1.75;position:relative;word-break:break-word}
 .msg.ai{background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);border-bottom-left-radius:6px;
@@ -243,38 +243,53 @@ body{
 .wave i:nth-child(3){height:7px;animation-delay:.24s}.wave i:nth-child(4){height:12px;animation-delay:.36s}
 .wave i:nth-child(5){height:5px;animation-delay:.48s}
 @keyframes wv{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
-/* 玻璃心情日历：日历 × 情绪打卡结合体（液态玻璃质感） */
-.gcal{position:relative;border-radius:26px;overflow:hidden;flex:none;margin-top:16px;
-  box-shadow:0 24px 55px rgba(150,120,150,.28)}
+/* 玻璃心情日历：首页紧凑卡（左）+ 月历详细页（液态玻璃 · 高短调） */
+.h3-grid{display:flex;gap:10px;margin-top:16px;flex:none;align-items:stretch}
+.h3-duo.duo-col{flex-direction:column;gap:10px;margin-top:0;flex:1}
+.h3-duo.duo-col .ph{height:auto;flex:1}
+.gcal{position:relative;border-radius:24px;overflow:hidden;flex:1.12;min-width:0;cursor:pointer;
+  box-shadow:0 20px 45px rgba(150,125,135,.22)}
 .gcal .gc-bg{position:absolute;inset:0;
-  background:
-    radial-gradient(200px 150px at 12% 18%,rgba(216,167,182,.8),transparent 70%),
-    radial-gradient(220px 170px at 88% 12%,rgba(180,155,224,.75),transparent 70%),
-    radial-gradient(240px 200px at 55% 100%,rgba(244,214,178,.8),transparent 70%),
-    linear-gradient(150deg,#F3E4E8,#E5DDF2)}
-.gcal .gc-in{position:relative;margin:1.5px;border-radius:25px;padding:15px 16px 13px;
-  background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.14));
-  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);
-  border:1px solid rgba(255,255,255,.65);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.15)}
-.gcal .gc-top{display:flex;align-items:flex-end;justify-content:space-between}
-.gcal .gc-date{display:flex;align-items:flex-end;gap:10px}
-.gcal .gc-date b{font-family:var(--serif);font-size:40px;font-weight:900;line-height:.95;color:#57424B}
-.gcal .gc-date span{font-size:11px;color:var(--ink-2);padding-bottom:4px;letter-spacing:.06em}
-.gcal .gc-streak{font-size:10px;font-weight:700;color:var(--rose-deep);
-  background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);
-  border-radius:999px;padding:4px 11px;backdrop-filter:blur(6px)}
-.gcal .gc-week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:13px}
-.gcal .wc{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 0 7px;border-radius:14px;
-  background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.4)}
-.gcal .wc .wd{font-size:9px;color:var(--ink-3)}
-.gcal .wc .dy{font-size:12px;font-weight:600;color:#57424B}
-.gcal .wc .md{width:7px;height:7px;border-radius:50%;background:var(--mc,rgba(255,255,255,.5))}
-.gcal .wc.fut{opacity:.45}
-.gcal .wc.today{background:rgba(255,255,255,.85);border-color:rgba(255,255,255,.95);
-  box-shadow:0 6px 16px rgba(150,110,130,.22);outline:1.5px solid var(--rose-deep)}
-.gcal .gc-pick{margin-top:13px;padding-top:11px;border-top:1px dashed rgba(140,115,120,.18)}
-.gcal .gc-cap{display:block;font-size:10px;color:var(--ink-2);letter-spacing:.08em;margin-bottom:9px;text-align:center}
+  background:linear-gradient(rgba(250,247,243,.58),rgba(250,247,243,.58)),url('../../assets/conc-botanic.webp') center/cover}
+.gcal .gc-in{position:relative;margin:1.5px;border-radius:23px;padding:14px 15px;height:calc(100% - 3px);
+  display:flex;flex-direction:column;
+  background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.22));
+  backdrop-filter:blur(14px) saturate(1.25);-webkit-backdrop-filter:blur(14px) saturate(1.25);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -1px 0 rgba(255,255,255,.12)}
+.gcal .gc-day{display:flex;align-items:baseline;gap:8px}
+.gcal .gc-day b{font-family:var(--serif);font-size:34px;font-weight:900;line-height:1;color:#57424B}
+.gcal .gc-day span{font-size:10px;color:var(--ink-2);letter-spacing:.05em}
+.gcal .gc-today{display:flex;align-items:center;gap:8px;margin-top:11px}
+.gcal .gc-mi{width:30px;height:30px;border-radius:50%;flex:none;background:var(--mc,rgba(255,255,255,.6));
+  display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.85)}
+.gcal .gc-mi svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.gcal .gc-mi.none svg{stroke:var(--ink-3)}
+.gcal .gc-ml{font-size:12px;font-weight:600;color:#57424B}
+.gcal .gc-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px}
+.gcal .gc-streak{font-size:9.5px;font-weight:700;color:var(--rose-deep);
+  background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.75);
+  border-radius:999px;padding:3px 10px;backdrop-filter:blur(6px)}
+.gcal .gc-more{font-size:10px;color:var(--ink-2)}
+/* ---- 月历详细页 ---- */
+.gcal.mcal{flex:none;cursor:default}
+.gcal.mcal .gc-in{padding:16px}
+.mc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.mc-head b{font-family:var(--serif);font-size:16px;color:#57424B}
+.wk-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
+.wk-row span{text-align:center;font-size:10px;color:var(--ink-3);padding:3px 0}
+.mc-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.mc-cell{position:relative;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:11px;color:var(--ink-2);border-radius:10px;background:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.42)}
+.mc-cell .dot{width:5.5px;height:5.5px;border-radius:50%;margin-top:2.5px;background:var(--mc)}
+.mc-cell.fut{opacity:.4;background:none;border-color:transparent}
+.mc-cell.today{outline:1.8px solid var(--rose-deep);background:rgba(255,255,255,.88);font-weight:700;color:var(--rose-deep)}
+.mc-trend{width:100%;height:70px;margin-top:12px;display:block}
+.mc-trend polyline{fill:none;stroke:#B99FC0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mc-trend circle{r:4;stroke:#fff;stroke-width:2}
+.mc-pick{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(140,115,120,.18)}
+.mc-cap{display:block;font-size:10px;color:var(--ink-2);letter-spacing:.08em;margin-bottom:9px;text-align:center}
+.mc-hint{margin-top:12px;text-align:center;font-size:10px;color:var(--ink-3);line-height:1.7}
 .c-moods{flex:1;display:flex;gap:3px}
 .c-moods .m{flex:1;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-family:var(--sans)}
 .c-moods .m svg{width:26px;height:26px;padding:6px;border-radius:50%;background:var(--mc);stroke:#fff;fill:none;
