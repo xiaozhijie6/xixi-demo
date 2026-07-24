@@ -94,10 +94,13 @@ body{
 .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(190,126,143,.35),transparent);margin:14px 0}
 /* ---- Tabbar（液态玻璃 Liquid Glass） ---- */
 .tabbar{position:absolute;left:14px;right:14px;bottom:16px;height:66px;z-index:50;
-  border-radius:26px;overflow:hidden;
+  border-radius:26px;overflow:visible;
   box-shadow:0 6px 6px rgba(90,50,70,.16),0 0 22px rgba(90,50,70,.08);
   display:flex;align-items:center;justify-content:space-around;padding:0 8px;
   transition:opacity .3s,visibility .3s,transform .45s cubic-bezier(.175,.885,.32,2.2)}
+/* 胶囊下方到底边的磨砂遮挡，任何底色页面都适用 */
+.tabbar::before{content:'';position:absolute;left:-14px;right:-14px;top:calc(100% - 1px);height:18px;z-index:-1;
+  background:rgba(250,248,246,.55);backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2)}
 .tabbar:hover{transform:scale(1.018)}
 .tabbar .lg-effect{position:absolute;inset:0;z-index:0;isolation:isolate;
   backdrop-filter:blur(3px) saturate(1.6);-webkit-backdrop-filter:blur(3px) saturate(1.6);
