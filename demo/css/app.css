@@ -92,6 +92,11 @@ body{
 .chip{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:999px;font-size:12px;
   background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.8);color:var(--ink-2)}
 .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(190,126,143,.35),transparent);margin:14px 0}
+/* ---- 顶部磨砂条：真机滚动时内容在其下淡出，不被灵动岛生硬遮挡 ---- */
+.phone-screen::after{content:'';position:absolute;top:0;left:0;right:0;
+  height:calc(58px + env(safe-area-inset-top));z-index:30;pointer-events:none;
+  background:linear-gradient(180deg,rgba(250,248,246,.94) 30%,rgba(250,248,246,0));
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 /* ---- Tabbar（液态玻璃 Liquid Glass） ---- */
 .tabbar{position:absolute;left:14px;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));height:66px;z-index:50;
   border-radius:26px;overflow:visible;

@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "真机安全区适配：顶部/底部 env(safe-area-inset)，真机隐藏仿真状态栏与灵动岛"
+MSG = "顶部磨砂条：滚动时内容在其下淡出，不再被灵动岛生硬遮挡"
 CHANGED = ["demo/css/app.css", "tools/api_push.py"]
 ADDED = []
 DELETED = []
