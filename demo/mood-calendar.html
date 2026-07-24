@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心情日历组件 · 5 版（高短调 · 莫兰迪）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F8F5F0; --card:#FFFDFB;
+  --ink:#4A3F45; --ink2:#8A7B82; --ink3:#B0A3AA;
+  --rose-deep:#A96E74; --lav:#E9E2EF; --hair:rgba(140,115,120,.12);
+  --serif:'Noto Serif SC','Songti SC',serif; --sans:'Noto Sans SC','PingFang SC',sans-serif;
+  --shadow:0 10px 34px rgba(160,125,130,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--sans);color:var(--ink);background:#F1ECE4;min-height:100vh;padding:36px 20px 60px}
+h1{font-family:var(--serif);font-size:23px;text-align:center}
+.sub{text-align:center;font-size:13px;color:var(--ink2);margin:10px 0 32px;line-height:1.8}
+.grid{display:flex;flex-wrap:wrap;gap:28px;justify-content:center}
+.ctx{width:396px;flex:none;background:radial-gradient(620px 420px at 88% -6%,#F3EAE2 0%,transparent 62%),var(--paper);
+  border-radius:30px;padding:24px 20px 26px;box-shadow:0 20px 50px rgba(120,95,100,.12);position:relative}
+.ctx .tag{position:absolute;top:-12px;left:16px;background:var(--card);border-radius:999px;padding:5px 15px;
+  font-size:11.5px;font-weight:700;color:var(--rose-deep);box-shadow:var(--shadow)}
+.ctx .note{margin-top:15px;font-size:11.5px;color:var(--ink3);text-align:center;line-height:1.7}
+.card{background:var(--card);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+.cal-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.cal-head b{font-size:16px;font-family:var(--serif)}
+.cal-head .streak{font-size:11px;color:var(--rose-deep);font-weight:700}
+.wk-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:7px}
+.wk-row span{text-align:center;font-size:11px;color:var(--ink3);padding:3px 0}
+/* 月历格通用 */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cell{position:relative;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:12px;color:var(--ink2);border-radius:10px}
+.cell.fut{color:var(--ink3);opacity:.5}
+.cell .dot{width:5.5px;height:5.5px;border-radius:50%;margin-top:2.5px}
+.cell.today{outline:1.8px solid var(--rose-deep);outline-offset:1px;font-weight:700;color:var(--rose-deep);
+  animation:tpulse 2s infinite}
+@keyframes tpulse{0%,100%{outline-color:rgba(169,110,116,.9)}50%{outline-color:rgba(169,110,116,.3)}}
+/* C 花瓣版 */
+.petals .cell{color:#fff}
+.petals .cell .pc{position:absolute;inset:3px;border-radius:50%;background:var(--mc);opacity:.92;z-index:0}
+.petals .cell span{position:relative;z-index:1;font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(110,80,90,.25)}
+.petals .cell.fut .pc{display:none}
+.petals .cell.today{color:var(--rose-deep)}
+.petals .cell.today .pc{background:var(--card);border:2px solid var(--rose-deep);opacity:1;animation:none}
+/* E 手账版 */
+.journal .cell{border-radius:8px;background:var(--mc);color:#5A4B50;font-weight:600;font-size:11.5px;
+  transform:rotate(var(--r,0deg))}
+.journal .cell.fut{background:#F3F0EA;transform:none;font-weight:400}
+.journal .cell.today{background:var(--card);border:2px dashed var(--rose-deep);transform:rotate(-2deg)}
+.paper{position:relative;background:linear-gradient(180deg,#FFFCF6,#FAF4E8);border-radius:8px;
+  box-shadow:0 12px 30px rgba(145,118,100,.16)}
+.paper .tape{position:absolute;top:-11px;left:50%;transform:translateX(-50%) rotate(-1.5deg);
+  width:86px;height:22px;background:rgba(201,162,166,.48);border-radius:2px;
+  box-shadow:0 2px 5px rgba(140,105,110,.14)}
+/* 迷你点阵（D） */
+.mini .cell{aspect-ratio:auto;padding:6px 0}
+.mini .cell .dot{width:6px;height:6px;margin-top:3px}
+/* 周视图（B） */
+.week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.wcell{display:flex;flex-direction:column;align-items:center;gap:7px;padding:11px 0 9px;border-radius:14px;
+  background:#F7F4EE}
+.wcell .wd{font-size:10.5px;color:var(--ink3)}
+.wcell .mi{width:28px;height:28px;border-radius:50%;background:var(--mc);display:flex;align-items:center;justify-content:center}
+.wcell .mi svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wcell .dy{font-size:11px;color:var(--ink2)}
+.wcell.today{background:var(--card);outline:1.8px solid var(--rose-deep);outline-offset:1px}
+.wcell.today .mi{background:var(--card);border:1.8px dashed var(--rose-deep)}
+.wcell.today .mi svg{stroke:var(--rose-deep)}
+.wcell.fut{opacity:.45}
+/* 趋势（D） */
+.trend{width:100%;height:76px;margin-bottom:10px}
+.trend polyline{fill:none;stroke:#B99FC0;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.trend circle{r:4;stroke:#fff;stroke-width:2}
+/* 心情选择器 */
+.picker{display:flex;gap:5px;margin-top:15px;padding-top:14px;border-top:1px dashed var(--hair)}
+.picker .pk{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;
+  cursor:pointer;font-family:var(--sans);padding:0}
+.picker .pk svg{width:30px;height:30px;padding:7.5px;border-radius:50%;background:var(--mc);stroke:#fff;fill:none;
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.88;transition:.2s;display:block}
+.picker .pk i{font-style:normal;font-size:10.5px;color:var(--ink2)}
+.picker .pk.on svg{outline:2px solid var(--rose-deep);outline-offset:2px;opacity:1;transform:scale(1.1)}
+.picker-cap{text-align:center;font-size:10.5px;color:var(--ink3);margin-top:9px}
+/* toast */
+.toastx{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(8px);
+  background:rgba(74,63,69,.92);color:#fff;font-size:12.5px;padding:10px 20px;border-radius:999px;
+  opacity:0;visibility:hidden;transition:.3s;z-index:99}
+.toastx.show{opacity:1;visibility:visible;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<h1>心情日历组件 · 5 版</h1>
+<p class="sub">情绪打卡 × 日历：走过的每一天都有痕迹，今天随手一记。<br>高短调 · 莫兰迪灰调 · 为 30–50 岁女性调的色与字。</p>
+<div class="grid">
+
+  <div class="ctx"><div class="tag">A · 月历卡</div>
+    <div class="card">
+      <div class="cal-head"><b data-month>7月 · 心情日历</b><span class="streak">连续记录 6 天</span></div>
+      <div class="wk-row"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+      <div class="cal-grid" data-cal="dot"></div>
+      <div class="picker" data-picker></div>
+      <div class="picker-cap">今天感觉怎么样？</div>
+    </div>
+    <div class="note">日子一天一天过，心情一笔一笔攒</div>
+  </div>
+
+  <div class="ctx"><div class="tag">B · 周视图</div>
+    <div class="card">
+      <div class="cal-head"><b>本周心情</b><span class="streak">连续记录 6 天</span></div>
+      <div class="week-strip" data-week></div>
+      <div class="picker" data-picker></div>
+      <div class="picker-cap">点今天，随手一记</div>
+    </div>
+    <div class="note">轻重刚好，放在首页不扰人</div>
+  </div>
+
+  <div class="ctx"><div class="tag">C · 花瓣月历</div>
+    <div class="card">
+      <div class="cal-head"><b data-month>7月 · 心情园地</b><span class="streak">连续记录 6 天</span></div>
+      <div class="wk-row"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+      <div class="cal-grid petals" data-cal="petal"></div>
+      <div class="picker" data-picker></div>
+      <div class="picker-cap">每一朵，都是那一天的你</div>
+    </div>
+    <div class="note">颜色不喧哗，是这个年纪的温柔</div>
+  </div>
+
+  <div class="ctx"><div class="tag">D · 走势 + 月历</div>
+    <div class="card">
+      <div class="cal-head"><b>心情走势</b><span class="streak">连续记录 6 天</span></div>
+      <svg class="trend" data-trend viewBox="0 0 320 76" preserveAspectRatio="none"></svg>
+      <div class="cal-grid mini" data-cal="mini"></div>
+      <div class="picker" data-picker></div>
+      <div class="picker-cap">看见起落，也是看见自己</div>
+    </div>
+    <div class="note">一周一条曲线，周报就从这里长出来</div>
+  </div>
+
+  <div class="ctx"><div class="tag">E · 手账版</div>
+    <div class="card paper">
+      <div class="tape"></div>
+      <div class="cal-head"><b data-month>七月手账</b><span class="streak">♡ 连续记录 6 天</span></div>
+      <div class="wk-row"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+      <div class="cal-grid journal" data-cal="journal"></div>
+      <div class="picker" data-picker></div>
+      <div class="picker-cap">把今天，收进手账里</div>
+    </div>
+    <div class="note">纸感与贴纸，记录本身就是一种安顿</div>
+  </div>
+
+</div>
+<div class="toastx" id="toast"></div>
+<script>
+/* ===== 心情数据（莫兰迪灰调色板） ===== */
+const MOODS=[
+  ['平静','#DCC6C0','<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>',5],
+  ['委屈','#C7D0DA','<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',3],
+  ['焦虑','#E4D6BC','<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',2],
+  ['烦躁','#DFBCB2','<path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/>',2],
+  ['难过','#CDC2D4','<path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/>',1]
+];
+const REPLY={'平静':'平静很好 · 今天也稳稳的','委屈':'委屈就说出来 · 西西听着','焦虑':'先深呼吸一下 · 我在','烦躁':'烦躁倒给我 · 就不硌你了','难过':'抱抱你 · 难过不用藏'};
+const now=new Date(),Y=now.getFullYear(),M=now.getMonth(),TODAY=now.getDate();
+const DIM=new Date(Y,M+1,0).getDate();
+const FIRST=(new Date(Y,M,1).getDay()+6)%7;
+const hist={};
+for(let d=1;d<TODAY;d++)hist[d]=(d*7+M*3)%5;
+document.querySelectorAll('[data-month]').forEach(el=>el.textContent=el.textContent.replace('7',M+1));
+/* ===== 渲染 ===== */
+function cellHTML(d,type){
+  const mi=hist[d], isT=d===TODAY, fut=d>TODAY;
+  if(type==='petal'){
+    return '<div class="cell'+(isT?' today':'')+(fut?' fut':'')+'">'
+      +(mi!=null?'<i class="pc" style="--mc:'+MOODS[mi][1]+'"></i>':'')+(isT?'<i class="pc"></i>':'')
+      +'<span>'+d+'</span></div>';
+  }
+  if(type==='journal'){
+    const r=mi!=null?((d*13)%5-2)*0.8:0;
+    return '<div class="cell'+(isT?' today':'')+(fut?' fut':'')+'" style="--r:'+r+'deg;'
+      +(mi!=null?'--mc:'+MOODS[mi][1]:'')+'">'+d+'</div>';
+  }
+  if(type==='mini'){
+    return '<div class="cell'+(isT?' today':'')+(fut?' fut':'')+'">'+d
+      +(mi!=null?'<i class="dot" style="background:'+MOODS[mi][1]+'"></i>':'')+'</div>';
+  }
+  return '<div class="cell'+(isT?' today':'')+(fut?' fut':'')+'">'+d
+    +(mi!=null?'<i class="dot" style="background:'+MOODS[mi][1]+'"></i>':'')+'</div>';
+}
+function renderCals(){
+  document.querySelectorAll('[data-cal]').forEach(g=>{
+    const type=g.dataset.cal;
+    let h='';
+    for(let i=0;i<FIRST;i++)h+='<div class="cell fut"></div>';
+    for(let d=1;d<=DIM;d++)h+=cellHTML(d,type);
+    g.innerHTML=h;
+  });
+}
+function renderWeek(){
+  const g=document.querySelector('[data-week]');if(!g)return;
+  const dow=(now.getDay()+6)%7, WD=['一','二','三','四','五','六','日'];
+  let h='';
+  for(let i=0;i<7;i++){
+    const d=TODAY-dow+i, isT=i===dow, fut=i>dow, mi=fut?null:hist[d];
+    h+='<div class="wcell'+(isT?' today':'')+(fut?' fut':'')+'">'
+      +'<span class="wd">'+WD[i]+'</span>'
+      +'<span class="mi" '+(mi!=null?'style="background:'+MOODS[mi][1]+'"':'')+'>'
+      +'<svg viewBox="0 0 24 24">'+(mi!=null?MOODS[mi][2]:'<path d="M12 5v14M5 12h14"/>')+'</svg></span>'
+      +'<span class="dy">'+d+'</span></div>';
+  }
+  g.innerHTML=h;
+}
+function renderTrend(){
+  const s=document.querySelector('[data-trend]');if(!s)return;
+  const dow=(now.getDay()+6)%7,pts=[];
+  for(let i=0;i<7;i++){
+    const d=TODAY-dow+i,mi=hist[d];
+    const score=mi!=null?MOODS[mi][3]:3;
+    pts.push([18+i*47, 68-(score-1)*13.5, mi]);
+  }
+  s.innerHTML='<polyline points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'"/>'
+    +pts.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" fill="'+(p[2]!=null?MOODS[p[2]][1]:'#fff')+'"/>').join('');
+}
+function renderPickers(sel){
+  document.querySelectorAll('[data-picker]').forEach(p=>{
+    p.innerHTML=MOODS.map((m,i)=>'<button class="pk'+(i===sel?' on':'')+'" data-i="'+i+'" style="--mc:'+m[1]+'">'
+      +'<svg viewBox="0 0 24 24">'+m[2]+'</svg><i>'+m[0]+'</i></button>').join('');
+  });
+}
+function renderAll(){renderCals();renderWeek();renderTrend();}
+renderAll();renderPickers(hist[TODAY]);
+/* ===== 交互 ===== */
+const toast=document.getElementById('toast');let tt;
+function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),2200);}
+document.addEventListener('click',e=>{
+  const pk=e.target.closest('.pk');if(!pk)return;
+  const i=+pk.dataset.i;
+  hist[TODAY]=i;
+  renderAll();renderPickers(i);
+  document.querySelectorAll('.streak').forEach(s=>s.textContent=s.textContent.replace('6','7'));
+  showToast(REPLY[MOODS[i][0]]);
+});
+</script>
+</body>
+</html>

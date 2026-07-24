@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V3 · 小屋夜话 — 当前困扰</title>
+<style>
+:root{
+  --cream:#FBF4EC; --ink:#6B555F; --ink2:#A08B94; --ink3:#C6B4BD;
+  --rose:#DCA3B0; --rose-deep:#C98A9A; --peach:#F3CFA9; --terra:#DFA87F;
+  --serif:'Noto Serif SC','Songti SC','STSong',serif;
+  --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--sans);background:#2b2027;display:grid;place-items:center;min-height:100vh}
+.stage{width:390px;height:844px;position:relative;overflow:hidden;color:var(--ink);
+  background:var(--cream);box-shadow:0 40px 90px rgba(0,0,0,.5)}
+/* 顶部插画 */
+.hero{position:absolute;top:0;left:0;right:0;height:322px;z-index:1;
+  background:url(../../assets/conc-hero.webp) center 32%/cover no-repeat;
+  animation:heroIn 1.1s cubic-bezier(.22,.9,.32,1) both}
+@keyframes heroIn{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:none}}
+.hero::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(251,244,236,.15),transparent 40%,rgba(251,244,236,.55) 82%,var(--cream) 100%)}
+/* 漂浮爱心/气泡 */
+.floaty{position:absolute;z-index:2;opacity:0;animation:floatUp 5s ease-in infinite}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.6)}12%{opacity:.85}80%{opacity:.5}100%{opacity:0;transform:translateY(-120px) scale(1.1) rotate(12deg)}}
+/* AI 小球伙伴 */
+.orb{position:absolute;top:246px;right:26px;z-index:6;width:64px;height:64px;border-radius:50%;
+  background:url(../../assets/avatar-ai.webp) center/cover;box-shadow:0 10px 24px rgba(160,90,110,.4),0 0 0 4px rgba(255,255,255,.8);
+  animation:orbBob 3.2s ease-in-out infinite}
+@keyframes orbBob{50%{transform:translateY(-9px) rotate(3deg)}}
+.orb::after{content:'我听着呢';position:absolute;left:-72px;top:14px;white-space:nowrap;font-size:10.5px;color:var(--rose-deep);
+  background:#fff;border-radius:12px 12px 2px 12px;padding:5px 10px;box-shadow:0 4px 10px rgba(160,90,110,.2);
+  animation:sayHi 4s ease-in-out infinite}
+@keyframes sayHi{0%,100%{opacity:.95}50%{opacity:.55}}
+.sb{position:absolute;top:0;left:0;right:0;height:46px;z-index:20;display:flex;align-items:center;
+  justify-content:space-between;padding:14px 24px 0;font-size:13.5px;font-weight:600;color:#8a7380}
+.sb .si{display:flex;align-items:center;gap:6px}
+/* 底部小屋卡片 */
+.sheet{position:absolute;left:0;right:0;bottom:0;top:288px;z-index:5;background:var(--cream);
+  border-radius:30px 30px 0 0;box-shadow:0 -14px 40px rgba(120,70,90,.18);
+  padding:20px 22px 0;display:flex;flex-direction:column;
+  animation:sheetIn .8s cubic-bezier(.22,1.3,.36,1) .25s both}
+@keyframes sheetIn{from{transform:translateY(60%);opacity:.4}to{transform:none;opacity:1}}
+.sheet::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:3px;background:#EAD3CB}
+.head{display:flex;align-items:center;justify-content:space-between;margin:4px 0 12px}
+.prog{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink2);letter-spacing:.18em}
+.prog .bar{width:74px;height:5px;border-radius:3px;background:#F0DDD5;overflow:hidden}
+.prog .bar i{display:block;height:100%;width:50%;border-radius:3px;background:linear-gradient(90deg,var(--peach),var(--rose));
+  animation:barIn 1s .6s both}
+@keyframes barIn{from{width:0}}
+.skip{border:none;background:#F7E9E0;color:var(--rose-deep);font-size:12px;padding:6px 13px;border-radius:999px;cursor:pointer;font-family:var(--sans)}
+.kicker{font-size:10.5px;letter-spacing:.3em;color:var(--terra);font-weight:600;margin-bottom:7px}
+h1{font-family:var(--serif);font-size:24px;font-weight:900;line-height:1.4}
+h1 em{font-style:normal;color:var(--rose-deep)}
+.sub{margin-top:6px;font-size:12px;color:var(--ink2)}
+/* 糖豆 chips */
+.cloud{flex:1;display:flex;flex-wrap:wrap;gap:9px 8px;align-content:center;justify-content:center;padding:12px 0}
+.opt{position:relative;display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;
+  font-family:var(--sans);font-size:13px;color:var(--ink);padding:9px 13px;border-radius:999px;
+  background:#fff;border:1.5px solid #F2DCD3;box-shadow:0 3px 8px rgba(150,95,80,.08);
+  transition:background .2s,color .2s,border-color .2s;
+  animation:beanIn .55s cubic-bezier(.34,1.65,.64,1) both;animation-delay:calc(.55s + var(--i)*.05s)}
+@keyframes beanIn{from{opacity:0;transform:translateY(22px) scale(.4)}to{opacity:1;transform:none}}
+.opt svg{width:15px;height:15px;stroke:var(--terra);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:.2s}
+.opt.on{background:#F3D3DB;border-color:#E0B3C0;color:#A26071;
+  box-shadow:0 6px 14px rgba(190,140,155,.28);animation:jelly .5s}
+@keyframes jelly{0%{transform:scale(1)}30%{transform:scale(1.14,.86)}55%{transform:scale(.92,1.08)}75%{transform:scale(1.05,.96)}100%{transform:scale(1)}}
+.opt.on svg{stroke:#A26071}
+.opt .ck{position:absolute;top:-6px;right:-4px;width:17px;height:17px;border-radius:50%;background:var(--peach);color:#A87B4F;
+  font-size:10px;display:grid;place-items:center;opacity:0;transform:scale(0) rotate(-30deg)}
+.opt.on .ck{animation:ck .35s .1s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes ck{to{opacity:1;transform:scale(1) rotate(0)}}
+.opt.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+.foot{padding:4px 0 22px;display:flex;flex-direction:column;gap:9px;align-items:center}
+.cta{width:100%;height:53px;border:none;border-radius:18px;cursor:pointer;color:#A05870;
+  font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:.12em;
+  background:linear-gradient(135deg,#F2CFD9,#EBBCC9);box-shadow:0 10px 22px rgba(200,140,160,.32);
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s,opacity .25s,filter .25s}
+.cta:active{transform:scale(.97)}
+.cta.dis{filter:grayscale(.55);opacity:.5}
+.note{font-size:10.5px;color:var(--ink3);letter-spacing:.08em}
+.note i{font-style:normal;color:var(--rose)}
+.rise{opacity:0;animation:riseIn .6s cubic-bezier(.22,.9,.32,1) forwards}
+.d1{animation-delay:.5s}.d2{animation-delay:.62s}.d3{animation-delay:.72s}.d4{animation-delay:.95s}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="hero"></div>
+  <div class="orb"></div>
+  <div class="sb"><span>9:41</span><div class="si">
+    <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" width="3" height="11" rx="1"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1.5 4.5a10 10 0 0 1 13 0"/><path d="M4 7a6 6 0 0 1 8 0"/><circle cx="8" cy="9.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+    <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="3.5" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/><path d="M23.5 4v4a2 2 0 0 0 0-4z" fill="currentColor" opacity=".4"/></svg>
+  </div></div>
+  <div class="sheet">
+    <div class="head rise d1">
+      <div class="prog"><span>02/04</span><span class="bar"><i></i></span></div>
+      <button class="skip">暂时不想说</button>
+    </div>
+    <div class="kicker rise d1">当前困扰 · 多选，最多 3 项</div>
+    <h1 class="rise d2">最近，哪些事让你<em>想找人说说</em>？</h1>
+    <div class="sub rise d3">选最接近的就好，之后可改。</div>
+    <div class="cloud" id="cloud"></div>
+    <div class="foot rise d4">
+      <button class="cta dis" id="cta"><span id="ctaTxt">继续 · 已选 0/3</span><span>→</span></button>
+      <div class="note"><i>♡</i> 你的回答只用于提供更合适的陪伴</div>
+    </div>
+  </div>
+</div>
+<script>
+const OPTS=[
+ ['伴侣沟通不顺','M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z'],
+ ['婚姻出现变化','M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8zM12 5.6l-1.6 4 3 2.5-1.9 4.4'],
+ ['对关系感到不安','M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'],
+ ['家庭/亲子压力','M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'],
+ ['情绪起伏大','M2 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 15c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0'],
+ ['工作生活压力大','M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2'],
+ ['失眠、想太多','M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'],
+ ['孤独、没人理解','M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'],
+ ['想更了解自己','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z'],
+ ['只是想说说话','M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4zM6 2v2M10 2v2M14 2v2'],
+];
+// 漂浮小心心
+const stage=document.getElementById('stage');
+['#E8A2B4','#F3CFA9','#D98E6A','#E8A2B4','#F3CFA9'].forEach((c,i)=>{
+  const h=document.createElement('div');h.className='floaty';
+  const sz=10+i*3;
+  h.innerHTML=`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="${c}"><path d="M12 21s-7.5-4.9-9.8-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.8 12c-2.3 4.1-9.8 9-9.8 9z"/></svg>`;
+  h.style.cssText=`left:${12+i*18}%;top:${230+(i%2)*30}px;animation-delay:${i*1.1}s`;
+  stage.appendChild(h);
+});
+const MAX=3, sel=new Set();
+const cloud=document.getElementById('cloud'), cta=document.getElementById('cta'), ctaTxt=document.getElementById('ctaTxt');
+OPTS.forEach(([name,d],i)=>{
+  const b=document.createElement('button');
+  b.className='opt'; b.style.setProperty('--i',i);
+  b.innerHTML=`<svg viewBox="0 0 24 24"><path d="${d}"/></svg><span>${name}</span><span class="ck">✓</span>`;
+  b.onclick=()=>{
+    if(sel.has(i)){sel.delete(i);b.classList.remove('on')}
+    else{
+      if(sel.size>=MAX){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+      sel.add(i);b.classList.add('on');
+    }
+    update();
+  };
+  cloud.appendChild(b);
+});
+function update(){
+  ctaTxt.textContent=`继续 · 已选 ${sel.size}/${MAX}`;
+  cta.classList.toggle('dis',sel.size===0);
+}
+cta.onclick=()=>{
+  if(sel.size===0){cta.classList.remove('shake');void cta.offsetWidth;cta.classList.add('shake');return}
+  ctaTxt.textContent='好，都记下了 ♡';
+  setTimeout(update,1100);
+};
+update();
+</script>
+</body>
+</html>

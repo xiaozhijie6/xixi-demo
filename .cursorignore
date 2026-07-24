@@ -1,0 +1,10 @@
+﻿# Cursor / AI indexing — exclude heavy binaries & backups
+shots/
+shots/**
+*.png
+demo/index.monolith.bak.html
+.env
+.env.*
+_optimize_build.py
+_fix_html.py
+*.bak.html

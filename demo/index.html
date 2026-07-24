@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>西西 · AI情感陪伴 Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<!-- ============ 左侧演示信息栏 ============ -->
+<aside class="side-info">
+  <div class="kicker">PRODUCT DEMO</div>
+  <h1>西西 · <em>AI情感陪伴</em></h1>
+  <p>面向 30-50 岁女性的情感成长服务小程序：以 AI 树洞建立信任，经 AI 预诊断转化至真人咨询的完整商业闭环演示。</p>
+  <div class="flow">
+    <span><i>1</i>AI树洞 · 共情陪伴</span>
+    <span><i>2</i>AI预诊断 · 结构化五问</span>
+    <span><i>3</i>初步诊断报告</span>
+    <span><i>4</i>匹配咨询师 · 平台支付</span>
+    <span><i>5</i>跳转企业微信 · 真人服务</span>
+  </div>
+  <div class="quicknav" id="quicknav"></div>
+  <div class="tip">演示彩蛋：在树洞聊天框输入「我活不下去了」，可触发危机干预强制弹卡流程。<br>桌面端可用 ← → 方向键快速切换界面。</div>
+</aside>
+
+<!-- ============ 手机壳 ============ -->
+<div class="phone">
+  <div class="phone-screen">
+    <div class="island"></div>
+    <div class="statusbar">
+      <span>9:41</span>
+      <span class="sicons">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 5.5c-1.9 0-3.6.7-4.9 2l1.4 1.4A4.9 4.9 0 0 1 8 7.5c1.3 0 2.5.5 3.5 1.4L12.9 7.5A6.9 6.9 0 0 0 8 5.5zM8 1C4.7 1 1.7 2.3-.4 4.6L1 6a9.9 9.9 0 0 1 14 0l1.4-1.4A11.9 11.9 0 0 0 8 1z" transform="translate(0,-1)"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2.5" y="2.5" width="15" height="7" rx="2" fill="currentColor"/><path d="M23.5 4v4a2 2 0 0 0 0-4z" fill="currentColor" opacity=".4"/></svg>
+      </span>
+    </div>
+
+    <!-- ========== S0 启动页 ========== -->
+    <section class="screen active" id="s-launch">
+      <div class="l-min">
+        <div class="l-kicker">AI EMOTIONAL COMPANION</div>
+        <div class="l-orb"><img src="../assets/avatar-ai.webp" alt="西西"></div>
+        <h1 class="l-title">西 西</h1>
+        <div class="l-slogan">把心事，说给懂你的人听</div>
+      </div>
+    </section>
+
+    <!-- ========== S0.5 问卷页（首次进入 · 流程版：信封剧场 + 分步转场） ========== -->
+    <section class="screen" id="s-onboard">
+      <div class="ob-wm" id="obWm">01</div>
+      <!-- 信封剧场组件 -->
+      <div class="envwrap" id="envWrap">
+        <div class="env" id="env">
+          <div class="ev-tape"></div>
+          <div class="ev-letter"><em id="evNote">我在听。</em><i></i><i></i></div>
+          <div class="ev-pocket"></div>
+          <div class="ev-flap"></div>
+          <div class="ev-puff"></div>
+          <div class="ev-seal">♡</div>
+        </div>
+      </div>
+      <div class="onboard-wrap">
+        <div class="onboard-top">
+          <div class="ob-back" id="obBack" style="visibility:hidden"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+          <div class="ob-stepnum"><b id="obStepNo">01</b><span>/ 05</span></div>
+          <div class="ob-skip" id="obSkip">暂时不想说</div>
+        </div>
+        <!-- 步骤舞台：内容由 app.js 问卷引擎按 OB_STEPS 渲染 -->
+        <div class="ob-stage" id="obStage"></div>
+        <div class="ob-footbar">
+          <div class="ob-meta"><span id="obMetaLab">CHECKED</span><span><b id="obCnt">0</b><span id="obMaxLab"> / 3</span></span></div>
+          <button class="ob-cta dis" id="obCta">继 续</button>
+          <div class="ob-note">你的回答只用于提供更合适的陪伴</div>
+        </div>
+      </div>
+      <!-- 情绪安全确认（选「感到绝望」时） -->
+      <div class="ob-safe" id="obSafe">
+        <div class="osc-card">
+          <div class="osc-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V7l7-4z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>先确认你是安全的</h3>
+          <p>听到你说「感到绝望」，我很在意你此刻的状态。<br>如果正处在紧急或危险中，请直接拨打援助热线</p>
+          <div class="osc-hot">24小时心理援助热线 <b>400-161-9995</b></div>
+          <button class="osc-btn" id="obSafeConsult">联 系 真 人 咨 询 师</button>
+          <button class="osc-btn ghost" id="obSafeOk">我暂时安全，先让西西陪我聊聊</button>
+          <div class="osc-note">你的安全比完成问卷更重要</div>
+        </div>
+      </div>
+      <!-- 转场特效层 -->
+      <div class="ob-fx" id="obFx"></div>
+    </section>
+
+    <!-- ========== S0.6 汇总页（第二次进入） ========== -->
+    <section class="screen" id="s-summary">
+      <div class="sum-wrap">
+        <div class="sum-visual">
+          <div class="sum-orb"><img src="../assets/avatar-ai.webp" alt="西西"></div>
+          <div class="sum-check"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+        </div>
+        <div class="sum-label">准备好了</div>
+        <h2 class="sum-title" id="sumTitle">小美，我大致了解了</h2>
+        <p class="sum-desc" id="sumDesc"></p>
+        <div class="sum-note">回答仅用于更好陪伴，可随时在「我的—个人档案」修改或删除</div>
+        <button class="btn btn-primary sum-btn" onclick="finishToChat()">开始第一次倾诉</button>
+        <button class="sum-ghost" onclick="enterApp()">先看看西西能做什么</button>
+      </div>
+    </section>
+
+    <!-- ========== S1 首页 ========== -->
+    <section class="screen" id="s-home">
+
+<div class="inner h3">
+        <div class="h3-line rise d1">把心事，<em>说给懂你的人听</em></div>
+        <div class="h3-top rise d2">
+          <div class="xxs" id="homeXixi">
+            <img class="fx base on" src="../assets/xixi-3d.png" alt="西西">
+            <img class="fx" data-x="blink" src="../assets/xixi-3d-blink.png" alt="">
+            <img class="fx" data-x="wow" src="../assets/xixi-3d-wow.png" alt="">
+            <img class="fx" data-x="love" src="../assets/xixi-3d-love.png" alt="">
+          </div>
+          <div class="h3-bcol">
+            <div class="hbub" onclick="go('s-chat')"><span id="bubTxt">下午好呀，小美～</span><span class="eq"><i></i><i></i><i></i><i></i></span></div>
+            <div class="h3-cap"><span class="live"></span>24h 倾听中 · 点气泡聊聊</div>
+          </div>
+        </div>
+        <div class="care-chip" id="careChip" style="display:none"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9C1.4 9 3.2 5.5 6.6 5.5c2 0 3.8 1.1 5.4 3 1.6-1.9 3.4-3 5.4-3 3.4 0 5.2 3.5 3.8 6.5C19 16.6 12 21 12 21z"/></svg>经期前 3 天 · 今天适合慢一点，我在这儿</div>
+        <div class="qcard rise d2">
+          <img class="bgi" src="../assets/share-card-bg.png" alt="">
+          <div class="qv">
+            <div class="q-lb">今日一句 · DAILY</div>
+            <div class="q-txt" id="homeQTxt"></div>
+            <div class="q-au" id="homeQAu"></div>
+          </div>
+          <button class="q-share" id="homeShareBtn"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>分享</button>
+        </div>
+        <div class="h3-ck rise d3">
+          <span class="lb">今日心情</span>
+          <div class="c-moods" id="homeMoods">
+            <button class="m" data-m="平静" style="--mc:#E9C9D3"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg></button>
+            <button class="m" data-m="委屈" style="--mc:#CBD8EE"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg></button>
+            <button class="m" data-m="焦虑" style="--mc:#F3D9B8"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></button>
+            <button class="m" data-m="烦躁" style="--mc:#F0C4BC"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg></button>
+            <button class="m" data-m="难过" style="--mc:#D7CBE9"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg></button>
+          </div>
+          <span class="streak" id="homeStreak">已连续 6 天</span>
+        </div>
+        <div class="h3-duo rise d4">
+          <button class="ph" id="homeMed"><img src="../assets/conc-sky.webp" alt=""><div class="vv"></div><div class="tx"><b>冥想呼吸</b><span>3 分钟 · 平复情绪</span></div></button>
+          <button class="ph" onclick="go('s-sleep')"><img src="../assets/art/art-sleep.webp" alt=""><div class="vv"></div><div class="tx"><b>助眠安睡</b><span>白噪音 · 睡前陪伴</span></div></button>
+        </div>
+        <div class="h3-foot rise d4">西西 · 一直在</div>
+      </div>
+    </section>
+
+    <!-- ========== S2 AI树洞 ========== -->
+    <section class="screen" id="s-chat">
+      <div class="inner">
+        <div class="chat-body" id="chatBody"></div>
+        <div class="quick-acts" id="quickActs" style="display:none">
+          <button onclick="quickSay('我想预约真人咨询','s-prediag')">预约真人咨询</button>
+          <button onclick="quickSay('再陪我聊聊吧')">再陪我聊聊</button>
+        </div>
+      </div>
+      <!-- 聊天页浮动卡片层（首发消息后原路撤回） -->
+      <div class="chat-cards" id="chatCards">
+        <div class="cw-card cw-c1 glass from-l" style="--rot:-2deg">
+          <svg class="cw-ico" viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9C1.4 9 3.2 5.5 6.6 5.5c2 0 3.8 1.1 5.4 3 1.6-1.9 3.4-3 5.4-3 3.4 0 5.2 3.5 3.8 6.5C19 16.6 12 21 12 21z"/></svg>
+          <div class="cw-tx">把心事，慢慢说给我听</div>
+        </div>
+        <div class="cw-card cw-c2 glass from-r" style="--rot:1.5deg">
+          <div class="cw-date">5月<i>20</i>日</div>
+          <div class="cw-week">星期二 · 午后</div>
+        </div>
+        <div class="cw-card cw-c3 glass from-l" style="--rot:-1deg">
+          <div class="cw-pic" style="background-image:url('../assets/art/art-quote.webp')"></div>
+          <div class="cw-cap">今天也值得被温柔以待</div>
+        </div>
+        <div class="cw-card cw-c4 glass from-r" style="--rot:2deg">
+          <div class="cw-tx sm">你不需要立刻坚强</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== S3 AI预诊断 ========== -->
+    <section class="screen" id="s-prediag">
+<div class="inner">
+        <div class="pd-progress rise d1" id="pdProgress"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <div id="pdBody"></div>
+        <div class="pd-opts" id="pdOpts"></div>
+        <div class="pd-gen glass" id="pdGen" style="display:none">
+          <div class="ring"></div>
+          <b>正在生成初步诊断报告</b>
+          <p>西西正在梳理我们的对话…</p>
+          <div class="bar"><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== S4 诊断报告 ========== -->
+    <section class="screen" id="s-report">
+<div class="inner">
+        <div class="report-card glass rise d1">
+          <div class="rhead">
+            <div class="seal"><svg viewBox="0 0 24 24"><path d="M9 12h6M12 9v6M12 3l7 4v5c0 4.4-3 8.2-7 9-4-.8-7-4.6-7-9V7l7-4z"/></svg></div>
+            <h3>初步诊断报告</h3>
+            <span>PRE-DIAGNOSIS REPORT</span>
+          </div>
+          <div class="divider"></div>
+          <div class="rrow rise d3">
+            <div class="lb">核心情绪</div>
+            <div class="tag-cloud"><span class="t1">焦虑</span><span class="t2">愤怒</span><span class="t3">迷茫</span></div>
+          </div>
+          <div class="rrow rise d4">
+            <div class="lb">主要矛盾</div>
+            <div class="vl">婚姻信任危机 —— 发现配偶疑似暧昧信息，尚未证实，处于「想求证又怕摊牌」的僵持状态，伴随持续的情绪内耗。</div>
+          </div>
+          <div class="rrow rise d5">
+            <div class="lb">咨询目标</div>
+            <div class="vl">稳定当前情绪，梳理应对策略，评估关系走向。</div>
+          </div>
+          <div class="rrow rise d5">
+            <div class="lb">紧急程度</div>
+            <div class="urg"><div class="track"><i></i></div><span>中度 · 建议尽快</span></div>
+          </div>
+          <div class="rrow rise d6">
+            <div class="lb">建议方向</div>
+            <div class="vl">婚姻信任修复 · 出轨创伤疗愈方向咨询师</div>
+          </div>
+        </div>
+        <button class="btn btn-primary rise d6" style="width:100%;height:52px;font-size:15.5px;margin-top:18px" onclick="go('s-consultants')">查看匹配咨询师（3 位）</button>
+        <p class="rise d6" style="text-align:center;font-size:10.5px;color:var(--ink-3);margin-top:12px">本报告由 AI 生成，仅供参考，不构成医疗诊断</p>
+      </div>
+    </section>
+
+    <!-- ========== S5 咨询师列表 ========== -->
+    <section class="screen" id="s-consultants">
+<div class="inner">
+        <p class="rise d1" style="font-size:12px;color:var(--ink-2);margin:0 2px 16px">根据你的诊断报告，为你优先匹配<b style="color:var(--rose-deep)">婚姻信任修复</b>方向的咨询师</p>
+        <div class="c-card glass rise d2" onclick="go('s-cdetail')">
+          <div class="rec-badge">为您优先推荐</div>
+          <div class="av"><img src="../assets/avatar-c1.webp" alt="沈若云" loading="lazy" decoding="async"></div>
+          <div class="inf">
+            <div class="nm"><b>沈若云</b><span class="rc">TOP</span></div>
+            <div class="ttl">国家二级心理咨询师 · 婚姻治疗 12 年</div>
+            <div class="tg"><span>出轨创伤</span><span>信任修复</span></div>
+            <div class="bt"><span class="pr">¥599<i> /40分钟</i></span><span class="rt">★ 4.9 · 案例 1200+</span></div>
+          </div>
+        </div>
+        <div class="c-card glass rise d3" onclick="go('s-cdetail')">
+          <div class="av"><img src="../assets/avatar-c2.webp" alt="林晚" loading="lazy" decoding="async" onerror="this.parentElement.style.background='linear-gradient(135deg,#E7C7D0,#C9A2B8)'"></div>
+          <div class="inf">
+            <div class="nm"><b>林晚</b></div>
+            <div class="ttl">婚姻家庭咨询师 · 8 年</div>
+            <div class="tg"><span>夫妻沟通</span><span>情绪疗愈</span></div>
+            <div class="bt"><span class="pr">¥399<i> /40分钟</i></span><span class="rt">★ 4.8 · 案例 860+</span></div>
+          </div>
+        </div>
+        <div class="c-card glass rise d4" onclick="go('s-cdetail')">
+          <div class="av"><img src="../assets/avatar-c3.webp" alt="陈静姝" loading="lazy" decoding="async"></div>
+          <div class="inf">
+            <div class="nm"><b>陈静姝</b></div>
+            <div class="ttl">应用心理学硕士 · 婚姻危机干预 15 年</div>
+            <div class="tg"><span>婚姻危机</span><span>女性成长</span></div>
+            <div class="bt"><span class="pr">¥799<i> /40分钟</i></span><span class="rt">★ 5.0 · 案例 2000+</span></div>
+          </div>
+        </div>
+        <div class="trust glass rise d5">
+          <div><b>资质审核</b><span>持证上岗</span></div>
+          <i></i>
+          <div><b>隐私加密</b><span>倾诉内容脱敏</span></div>
+          <i></i>
+          <div><b>退款保障</b><span>开始前24小时</span></div>
+        </div>
+        <p class="rise d5" style="text-align:center;font-size:10.5px;color:var(--ink-3);margin-top:10px">更多咨询师持续入驻中</p>
+      </div>
+    </section>
+
+    <!-- ========== S6 咨询师详情 ========== -->
+    <section class="screen" id="s-cdetail">
+<div class="inner" style="padding-bottom:120px">
+        <div class="hero rise d1">
+          <div class="av"><img src="../assets/avatar-c1.webp" alt="沈若云" loading="lazy" decoding="async"></div>
+          <h3>沈若云</h3>
+          <div class="ttl">国家二级心理咨询师 · 婚姻家庭治疗师</div>
+          <div class="stats">
+            <div><b>12年</b><span>从业经验</span></div>
+            <div><b>1200+</b><span>咨询案例</span></div>
+            <div><b>4.9</b><span>用户评分</span></div>
+          </div>
+        </div>
+        <div class="dsec glass rise d3">
+          <div class="lb">专业背景</div>
+          <p>华东师范大学心理学硕士，中德班婚姻家庭治疗连续培训项目成员。专注出轨创伤修复与夫妻信任重建，累计个案时长 6000+ 小时。</p>
+        </div>
+        <div class="dsec glass rise d4">
+          <div class="lb">擅长领域</div>
+          <div class="tag-cloud"><span class="t1">出轨创伤</span><span class="t1">信任修复</span><span class="t2">夫妻沟通</span><span class="t3">情绪稳定</span></div>
+        </div>
+        <div class="dsec glass rise d5">
+          <div class="lb">可预约时段</div>
+          <div class="slots" id="slots">
+            <div class="slot" onclick="pickSlot(this)">明天 10:00</div>
+            <div class="slot" onclick="pickSlot(this)">明天 14:30</div>
+            <div class="slot" onclick="pickSlot(this)">周三 19:00</div>
+            <div class="slot" onclick="pickSlot(this)">周四 20:00</div>
+            <div class="slot" onclick="pickSlot(this)">周五 21:00</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== S7 失眠专区 ========== -->
+    <section class="screen" id="s-sleep">
+      <div class="inner">
+        <div class="sleep-hero rise d1" style="background-image:url('../assets/art/art-sleep.webp'),linear-gradient(160deg,#5A6B66,#7E938C);background-position:center 26%;background-size:cover">
+          <div class="ov"><b>AI 睡前陪伴模式</b><span>温柔语音引导入睡 · 自动定时关闭</span></div>
+        </div>
+        <div class="sleep-list rise d2">
+          <div class="sleep-item">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v11M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm10-3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></div>
+            <div class="tx"><b>入睡引导 · 身体扫描冥想</b><span>23 分钟 · 温柔女声</span></div>
+            <div class="pl" onclick="playMock(this)"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
+          </div>
+          <div class="sleep-item">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M20 13.5A8.5 8.5 0 0 1 10.5 4 8.5 8.5 0 1 0 20 13.5z"/></svg></div>
+            <div class="tx"><b>深度放松 · 雨夜白噪音</b><span>60 分钟 · 循环播放</span></div>
+            <div class="pl" onclick="playMock(this)"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
+          </div>
+          <div class="sleep-item">
+            <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+            <div class="tx"><b>焦虑缓解 · 4-7-8 呼吸练习</b><span>12 分钟 · 呼吸引导</span></div>
+            <div class="pl" onclick="playMock(this)"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
+          </div>
+        </div>
+        <div class="sec-head rise d4"><b>精选好物</b><span>助眠优选</span></div>
+        <div class="goods rise d5">
+          <div class="gd" onclick="toast('跳转商家商城 · 演示版')"><div class="th" style="background-image:url('../assets/goods-1.webp');background-size:cover;background-position:center"></div><div class="tx"><b>助眠香薰</b><span>¥89</span></div></div>
+          <div class="gd" onclick="toast('跳转商家商城 · 演示版')"><div class="th" style="background-image:url('../assets/goods-2.webp');background-size:cover;background-position:center"></div><div class="tx"><b>真丝眼罩</b><span>¥129</span></div></div>
+          <div class="gd" onclick="toast('跳转商家商城 · 演示版')"><div class="th" style="background-image:url('../assets/goods-3.webp');background-size:cover;background-position:center"></div><div class="tx"><b>安神茶礼盒</b><span>¥59</span></div></div>
+          <div class="gd" onclick="toast('跳转商家商城 · 演示版')"><div class="th" style="background-image:url('../assets/goods-4.webp');background-size:cover;background-position:center"></div><div class="tx"><b>白噪音仪</b><span>¥199</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== S8 每日成长内容 ========== -->
+    <section class="screen" id="s-content">
+<div class="inner">
+        <div class="feat-card glass rise d1" onclick="toast('文章详情 · 演示版')">
+          <div class="pic" style="background-image:url('../assets/art/art-feat.webp'),linear-gradient(135deg,#E4E9DE,#D2DCC8)"><span class="cat">情感心理</span></div>
+          <div class="bd">
+            <b>发现伴侣暧昧信息后，第一件事不是摊牌</b>
+            <p>情绪最汹涌的 72 小时里做的决定，往往最不利于你。先稳住自己，再选择战场。</p>
+          </div>
+        </div>
+        <div class="audio-bar glass rise d3" onclick="toast('音频摘要 · 演示版')">
+          <div class="pl"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
+          <div class="tx"><b>今日音频摘要 · 亲密关系修复专题</b><div class="pr"><i></i></div></div>
+          <span class="du">5'32''</span>
+        </div>
+        <div class="mini-list rise d4">
+          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
+            <div class="tx"><span class="cat c-user">用户分享</span><b>结婚第十年，我重新学会和自己相处</b><span>@阿梨 · 6分钟</span></div>
+            <span class="ar">›</span>
+          </div>
+          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
+            <div class="tx"><span class="cat c-counsel">咨询师感悟</span><b>反复想确认他还爱不爱你，可能不是爱的问题</b><span>沈若云 · 5分钟</span></div>
+            <span class="ar">›</span>
+          </div>
+          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
+            <div class="tx"><span class="cat c-law">婚姻法律</span><b>婚内财产协议，女性必须知道的3个要点</b><span>4分钟</span></div>
+            <span class="ar">›</span>
+          </div>
+          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
+            <div class="tx"><span class="cat c-family">亲子沟通</span><b>和青春期孩子说话，为什么他总是关上房门</b><span>5分钟</span></div>
+            <span class="ar">›</span>
+          </div>
+          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
+            <div class="tx"><span class="cat c-growth">女性成长</span><b>性格太强势？温柔也可以是一种力量</b><span>6分钟</span></div>
+            <span class="ar">›</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== S9 我的 ========== -->
+    <section class="screen" id="s-me">
+
+<div class="inner">
+        <div class="profile-card glass rise d1">
+          <div class="av">美</div>
+          <div class="inf"><b>小美</b><span>38岁 · 上海 · 免费用户</span></div>
+          <div class="up" onclick="toast('升级陪跑 · 见下方会员卡')">升级陪跑</div>
+        </div>
+        <div class="member-card rise d3" onclick="toast('开通陪跑 · 演示版暂未开放支付')">
+          <div class="ov" style="position:relative">
+            <div class="lv">ANNUAL COMPANION</div>
+            <h4>年度陪跑会员</h4>
+            <div class="pr"><b>¥5,800</b> /年 · 赠1年无限AI咨询</div>
+            <div class="bn"><span>专属会员群</span><span>每月直播答疑</span><span>咨询8折券</span><span>线下活动免费</span></div>
+          </div>
+        </div>
+        <div class="menu-list glass rise d4">
+          <div class="mi" onclick="toast('我的档案 · 演示版')"><div class="ic" style="background:linear-gradient(135deg,#D8A7B6,#BE7E8F)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg></div><span>我的档案</span><span class="ar">›</span></div>
+          <div class="mi" onclick="toast('我的订单 · 演示版')"><div class="ic" style="background:linear-gradient(135deg,#D9A7BC,#BE8FA8)"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></div><span>我的订单</span><span class="ar">›</span></div>
+          <div class="mi" onclick="toast('我的预约 · 演示版')"><div class="ic" style="background:linear-gradient(135deg,#E3B98C,#C9A96E)"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div><span>我的预约</span><span class="ar">›</span></div>
+          <div class="mi" onclick="toast('邀请闺蜜 · 双方各得7天体验')"><div class="ic" style="background:linear-gradient(135deg,#E0A88F,#C9826B)"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.4 3-5.5 6.5-5.5s6.5 2.1 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c2 .8 3.5 2.6 3.5 5.2"/></svg></div><span>邀请闺蜜</span><span class="ar">›</span></div>
+          <div class="mi" onclick="toggleCare()"><div class="ic" style="background:linear-gradient(135deg,#E3B98C,#C9A96E)"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9C1.4 9 3.2 5.5 6.6 5.5c2 0 3.8 1.1 5.4 3 1.6-1.9 3.4-3 5.4-3 3.4 0 5.2 3.5 3.8 6.5C19 16.6 12 21 12 21z"/></svg></div><span>生理期关怀提醒<i class="mi-sub">涉及个人隐私 · 授权后首页才会展示</i></span><div class="switch" id="careSwitch"></div></div>
+          <div class="mi" onclick="toast('设置 · 演示版')"><div class="ic" style="background:linear-gradient(135deg,#B8A4A0,#96807C)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.07-.4.1-.8.1-1.2z"/></svg></div><span>设置</span><span class="ar">›</span></div>
+        </div>
+      </div>
+    </section>
+    <!-- 液态玻璃折射滤镜 -->
+<!-- ============ 全局浮层（脱离滚动容器） ============ -->
+    <nav class="tabbar ovl" id="tabbar">
+      <div class="lg-effect"></div>
+      <div class="lg-tint"></div>
+      <div class="lg-shine"></div>
+      <div class="tab" data-t="s-home" onclick="go('s-home')"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>首页</div>
+      <div class="tab" data-t="s-content" onclick="go('s-content')"><svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h13v13H6.5A2.5 2.5 0 0 0 4 19zm0 0a2.5 2.5 0 0 0 2.5 2.5H19"/></svg>成长</div>
+      <div class="tab" data-t="s-consultants" onclick="go('s-consultants')"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.4 2.7-5.2 6-5.2s6 1.8 6 5.2"/><path d="M15.6 5.6a3.2 3.2 0 0 1 0 5.6"/><path d="M17.6 14.6c2 .8 3.4 2.5 3.4 4.9"/></svg>真人咨询</div>
+      <div class="tab" data-t="s-me" onclick="go('s-me')"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>我的</div>
+    </nav>
+    <!-- 全局悬浮顶栏（子页面共用） -->
+    <div class="pg-head ovl" id="pgHead">
+      <div class="pg-back" id="pgBack"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+      <div class="pg-ttl" id="pgTitle"></div>
+    </div>
+    <!-- 聊天页固定页头（悬浮不随滚动） -->
+    <div class="chat-top ovl" id="chatTop">
+      <div class="ct-back" onclick="go('s-home')"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></div>
+      <div class="ct-id">
+        <b>西西</b>
+        <span class="st"><span class="wave"><i></i><i></i><i></i><i></i><i></i></span>倾听中</span>
+      </div>
+      <div class="ct-book" onclick="go('s-prediag')">预约咨询</div>
+    </div>
+    <!-- 语音小球：趴在输入栏上偷看 -->
+    <div class="orb-pet ovl" id="orbPet" onclick="orbPoke()">
+      <div class="orb-hop"><div class="orb-bob">
+        <img class="fx base on" src="../assets/xixi-3d.png" alt="西西">
+        <img class="fx" data-x="blink" src="../assets/xixi-3d-blink.png" alt="">
+        <img class="fx" data-x="wow" src="../assets/xixi-3d-wow.png" alt="">
+        <img class="fx" data-x="love" src="../assets/xixi-3d-love.png" alt="">
+      </div></div>
+    </div>
+    <div class="chat-input ovl" id="chatInputBar">
+      <div class="ci-btn" onclick="toast('语音输入 · 演示版暂未开放')"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+      <input id="chatInput" type="text" placeholder="把心事说给我听…" maxlength="200">
+      <div class="ci-btn" onclick="toast('图片倾诉 · 演示版暂未开放')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5-9 9"/></svg></div>
+      <button class="send" onclick="sendChat()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    </div>
+    <!-- 危机干预弹卡 -->
+    <div class="mask" id="crisisMask"></div>
+    <div class="crisis-card" id="crisisCard">
+      <div class="cicon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9C1.4 9 3.2 5.5 6.6 5.5c2 0 3.8 1.1 5.4 3 1.6-1.9 3.4-3 5.4-3 3.4 0 5.2 3.5 3.8 6.5C19 16.6 12 21 12 21z"/></svg></div>
+      <h3>您的情况可能需要专业支持</h3>
+      <p>我们已为您预留紧急咨询通道<br>值班咨询师已收到通知，会尽快与你联系</p>
+      <div class="hot">24小时心理援助热线 <b>400-161-9995</b></div>
+      <button class="btn btn-primary" onclick="closeCrisis();go('s-consultants')">立即连线专家</button>
+      <button class="btn btn-glass calm" id="calmBtn" onclick="closeCrisis()">我先冷静一下</button>
+      <div class="note">为保障你的安全，此提醒暂不可关闭</div>
+    </div>
+    <!-- 咨询师详情底部预约栏 -->
+    <div class="bookbar ovl" id="bookbar">
+      <div class="pr"><b>¥599</b><span>单次咨询 · 40分钟</span></div>
+      <button class="btn btn-primary" onclick="openPay()">立即预约</button>
+    </div>
+    <!-- 支付弹层 -->
+    <div class="mask" id="payMask" onclick="closePay()"></div>
+    <div class="sheet" id="paySheet">
+      <div class="grab"></div>
+      <div id="payForm">
+        <div class="kicker" style="margin-bottom:12px">确认订单</div>
+        <div class="pay-sum">
+          <div class="av"><img src="../assets/avatar-c1.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="inf"><b>沈若云 · 单次咨询</b><span>40分钟 · 视频连线</span></div>
+          <div class="amt">¥599</div>
+        </div>
+        <div class="pay-row"><span>预约时段</span><span id="paySlot">待选择</span></div>
+        <div class="pay-row"><span>诊断报告</span><span>已附 · 咨询师可提前了解</span></div>
+        <div class="pay-row total"><span>合计</span><b>¥599.00</b></div>
+        <button class="btn wxpay" onclick="doPay()"><svg viewBox="0 0 24 24"><path d="M8.7 4C4.9 4 2 6.6 2 9.8c0 1.8 1 3.4 2.5 4.5L3.9 17l2.7-1.4c.6.2 1.3.3 2 .3h.4A6 6 0 0 1 8.8 14c0-3.2 3-5.8 6.7-5.8h.4C15.2 5.8 12.2 4 8.7 4zM15.6 9C12.2 9 9.5 11.2 9.5 14s2.7 5 6.1 5c.6 0 1.2-.1 1.8-.2L19.8 20l-.5-2.3c1.4-.9 2.2-2.2 2.2-3.7 0-2.8-2.7-5-5.9-5z"/></svg>微信支付</button>
+        <p style="text-align:center;font-size:10.5px;color:var(--ink-3);margin-top:12px">支付成功后跳转企业微信，咨询师确认后服务开始</p>
+      </div>
+      <div class="pay-succ" id="paySucc" style="display:none">
+        <div class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+        <b>支付成功</b>
+        <p>正在跳转企业微信客服…<br>你的诊断报告已同步给咨询顾问</p>
+      </div>
+    </div>
+
+    <!-- 首页金句分享卡弹层 -->
+    <div class="h3-share" id="homeShare">
+      <div class="h3-share-card">
+        <img class="bgimg" src="../assets/share-card-bg.png" alt="">
+        <div class="ov">
+          <div class="brand">西西 · 每日一句</div>
+          <div class="sq" id="shareQ"></div>
+          <div class="sa" id="shareA"></div>
+          <div class="foot">陪你把日子过软</div>
+        </div>
+      </div>
+      <div class="h3-share-acts">
+        <button class="save" id="shareSave">保存图片</button>
+        <button class="close" id="shareClose">关闭</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+</div>
+<script src="js/app.js" defer></script>
+</body>
+</html>

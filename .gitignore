@@ -1,0 +1,18 @@
+# Keep Kimi Code / VS Code off heavy binaries and secrets
+shots/
+shots/**
+*.png
+!assets/**
+demo/index.monolith.bak.html
+.env
+.env.*
+!.env.example
+*.pyc
+__pycache__/
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+_optimize_build.py
+_fix_html.py
+*.bak.html

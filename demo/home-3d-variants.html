@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西西 · 首页 3 版（气泡对话式）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF9F6; --card:#FFFFFF;
+  --ink:#5C4C53; --ink2:#9C8D94; --ink3:#C6BAC0;
+  --rose:#D8A7B6; --rose-soft:#F6E7EB; --rose-ink:#B97E93;
+  --lilac:#EDE7F6; --violet-ink:#9B7EB8;
+  --hair:rgba(140,110,125,.14);
+  --serif:'Noto Serif SC','Songti SC',serif;
+  --sans:'Noto Sans SC','PingFang SC',sans-serif;
+  --shadow:0 18px 45px rgba(170,135,150,.12);
+  --shadow-s:0 8px 24px rgba(170,135,150,.09);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--sans);color:var(--ink);background:#F3EEE9;min-height:100vh}
+svg{display:block}
+.g-head{max-width:1380px;margin:0 auto;padding:34px 28px 8px}
+.g-head h1{font-family:var(--serif);font-size:22px;font-weight:700}
+.g-head p{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.8}
+.shelf{display:flex;gap:36px;justify-content:center;align-items:flex-start;padding:26px 28px 60px;overflow-x:auto}
+.unit{flex:none}
+.unit .cap{text-align:center;margin-bottom:16px}
+.unit .cap b{font-family:var(--serif);font-size:15px;font-weight:700;display:block}
+.unit .cap span{font-size:11.5px;color:var(--ink2)}
+.phone{width:390px;height:844px;border-radius:52px;background:var(--paper);
+  border:10px solid #fff;outline:1px solid rgba(140,110,125,.18);
+  box-shadow:0 40px 90px rgba(120,90,105,.20);overflow:hidden;position:relative;
+  display:flex;flex-direction:column}
+.sbar{display:flex;justify-content:space-between;align-items:center;
+  padding:16px 26px 4px;font-size:13px;font-weight:600;flex:none;z-index:5}
+.sbar .si{display:flex;align-items:center;gap:5px}
+.sbar svg{width:16px;height:12px;fill:var(--ink)}
+.body{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.tabbar{flex:none;height:74px;display:flex;border-top:1px solid var(--hair);
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);z-index:5}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;font-size:10.5px;color:var(--ink3);cursor:pointer}
+.tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--rose-ink)}
+.tab .dot{width:4px;height:4px;border-radius:50%}
+.tab.on .dot{background:var(--rose-ink)}
+/* 心情按钮 */
+.m{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;font-family:var(--sans);padding:0}
+.m svg{width:30px;height:30px;padding:7px;border-radius:50%;background:var(--mc);stroke:#fff;fill:none;
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.85;transition:.2s}
+.m i{font-style:normal;font-size:9.5px;color:var(--ink2)}
+.m.on svg{outline:2px solid var(--rose-ink);outline-offset:2px;opacity:1;transform:scale(1.08)}
+/* toast */
+.toastx{position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(8px);
+  background:rgba(92,76,83,.92);color:#fff;font-size:12px;padding:9px 18px;border-radius:999px;
+  opacity:0;visibility:hidden;transition:.3s;pointer-events:none;z-index:80;white-space:nowrap}
+.toastx.show{opacity:1;visibility:visible;transform:translateX(-50%)}
+/* 分享卡弹层 */
+.share{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;padding:30px;background:rgba(92,76,83,.34);backdrop-filter:blur(5px);
+  opacity:0;visibility:hidden;transition:.3s}
+.share.show{opacity:1;visibility:visible}
+.share-card{width:286px;aspect-ratio:3/4;border-radius:18px;overflow:hidden;position:relative;
+  box-shadow:0 30px 70px rgba(80,55,70,.35);transform:scale(.94);transition:.3s}
+.share.show .share-card{transform:scale(1)}
+.share-card .bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.share-card .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding:34px 26px}
+.share-card .ov .brand{font-size:9px;letter-spacing:.3em;color:var(--ink2);font-weight:700}
+.share-card .ov .sq{font-family:var(--serif);font-size:16.5px;font-weight:700;line-height:2;text-align:center;
+  margin-top:22px;color:#57424B;text-wrap:balance}
+.share-card .ov .sa{margin-top:14px;font-size:10.5px;color:var(--ink2);letter-spacing:.12em}
+.share-card .ov .foot{position:absolute;bottom:26%;font-size:9.5px;letter-spacing:.2em;color:var(--rose-ink);
+  background:rgba(255,255,255,.82);border-radius:999px;padding:5px 14px;font-weight:700}
+.share-acts{display:flex;gap:10px}
+.share-acts button{border:none;border-radius:999px;padding:11px 22px;font-size:12.5px;font-weight:700;
+  cursor:pointer;font-family:var(--sans)}
+.share-acts .save{background:#fff;color:var(--rose-ink);box-shadow:var(--shadow-s)}
+.share-acts .close{background:rgba(255,255,255,.25);color:#fff}
+</style>
+</head>
+<body>
+<header class="g-head">
+  <h1>首页 3 版 · 气泡对话式（3D 西西主持）</h1>
+  <p>所有文字由西西的气泡讲出，无左上角问候排版；以 3D 素材图为视觉主角；功能不重复：树洞（点气泡/西西）· 金句分享卡 · 情绪打卡 · 冥想 · 助眠。</p>
+</header>
+<div class="shelf">
+
+<!-- ================================================== -->
+<!-- G · 西西开场：大舞台 + 双气泡 + 底部白单            -->
+<!-- ================================================== -->
+<div class="unit">
+  <div class="cap"><b>G · 西西开场</b><span>无卡舞台 · 气泡讲话 · 白单收纳打卡与入口</span></div>
+  <div class="phone vg">
+    <div class="sbar"><span>9:41</span><span class="si">
+      <svg viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg viewBox="0 0 25 12"><rect x="0" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="3" width="13" height="6" rx="1.5"/><rect x="22" y="4" width="2.5" height="4" rx="1" opacity=".4"/></svg>
+    </span></div>
+    <div class="body">
+      <div class="stage">
+        <div class="b1"></div><div class="b2"></div><div class="ring"></div>
+        <svg class="spk s1" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></svg>
+        <svg class="spk s2" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/></svg>
+        <div class="gbub hi" data-go="chat"><span class="bub-txt">晚上好呀，我在呢～</span></div>
+        <div class="xx" data-go="chat"><img src="../assets/xixi-3d.png" alt="西西"><div class="plat"></div></div>
+        <div class="gbub qt">
+          <span class="q-txt"></span>
+          <a class="tl open-share">做成分享卡 ›</a>
+        </div>
+      </div>
+      <div class="sheet">
+        <div class="c-top"><b>情绪打卡</b><span class="streak">已连续 6 天</span></div>
+        <div class="c-moods">
+          <button class="m" data-m="平静" style="--mc:#E9C9D3"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg><i>平静</i></button>
+          <button class="m" data-m="委屈" style="--mc:#CBD8EE"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg><i>委屈</i></button>
+          <button class="m" data-m="焦虑" style="--mc:#F3D9B8"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg><i>焦虑</i></button>
+          <button class="m" data-m="烦躁" style="--mc:#F0C4BC"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg><i>烦躁</i></button>
+          <button class="m" data-m="难过" style="--mc:#D7CBE9"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg><i>难过</i></button>
+        </div>
+        <div class="li act-med"><b>冥想呼吸</b><span>3 分钟 · 平复情绪</span><em>›</em></div>
+        <div class="li act-slp"><b>助眠安睡</b><span>白噪音 · 睡前陪伴</span><em>›</em></div>
+      </div>
+    </div>
+    <nav class="tabbar">
+      <div class="tab on"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>首页<span class="dot"></span></div>
+      <div class="tab" data-t="成长"><svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h13v13H6.5A2.5 2.5 0 0 0 4 19zm0 0a2.5 2.5 0 0 0 2.5 2.5H19"/></svg>成长<span class="dot"></span></div>
+      <div class="tab" data-t="真人咨询"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.8.3 5 2.1 5 5.4"/></svg>真人咨询<span class="dot"></span></div>
+      <div class="tab" data-t="我的"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>我的<span class="dot"></span></div>
+    </nav>
+  </div>
+</div>
+<style>
+/* ============ G · 西西开场 ============ */
+.vg .stage{position:relative;height:432px;flex:none;overflow:hidden;border-radius:0 0 30px 30px;
+  background:linear-gradient(165deg,#FCF1EA 0%,#F8E4EA 52%,#ECE4F5 100%)}
+.vg .stage::before{content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(185,126,147,.16) 1.2px,transparent 1.6px);background-size:18px 18px;opacity:.5}
+.vg .b1,.vg .b2{position:absolute;border-radius:50%;filter:blur(26px);opacity:.55;pointer-events:none}
+.vg .b1{width:150px;height:150px;background:#F3CBD6;right:-40px;top:-30px}
+.vg .b2{width:130px;height:130px;background:#DCD0F0;left:-46px;bottom:-30px}
+.vg .ring{position:absolute;width:200px;height:200px;border-radius:50%;border:1.5px solid rgba(185,126,147,.22);
+  left:50%;top:52%;transform:translate(-50%,-50%);pointer-events:none}
+.vg .spk{position:absolute;stroke:#C99AB0;fill:none;stroke-width:1.6;opacity:.8;animation:tw 2.6s ease-in-out infinite}
+.vg .spk.s1{width:13px;height:13px;left:60px;top:150px}
+.vg .spk.s2{width:9px;height:9px;right:56px;top:210px;animation-delay:1.2s}
+@keyframes tw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.1)}}
+.vg .xx{position:absolute;left:50%;bottom:86px;width:196px;margin-left:-98px;cursor:pointer}
+.vg .xx img{width:100%;mix-blend-mode:multiply;animation:flt 4s ease-in-out infinite;position:relative;z-index:1}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.vg .plat{position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);width:140px;height:22px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(150,110,135,.28),transparent)}
+.vg .gbub{position:absolute;background:rgba(255,255,255,.95);border-radius:16px;padding:10px 14px;
+  font-size:12.5px;line-height:1.6;box-shadow:var(--shadow-s);max-width:186px;cursor:pointer;z-index:3}
+.vg .gbub::before{content:'';position:absolute;width:12px;height:12px;background:inherit;border-radius:2px}
+.vg .gbub.hi{top:22px;right:18px}
+.vg .gbub.hi::before{left:16px;bottom:-5px;transform:rotate(45deg)}
+.vg .gbub.qt{left:18px;bottom:22px;right:18px;max-width:none;font-family:var(--serif);font-weight:700;font-size:13.5px}
+.vg .gbub.qt::before{right:64px;top:-5px;transform:rotate(45deg)}
+.vg .gbub .tl{display:inline-block;margin-top:7px;font-family:var(--sans);font-size:10.5px;color:var(--rose-ink);font-weight:700}
+.vg .sheet{flex:1;background:#fff;border-radius:26px 26px 0 0;margin-top:-20px;position:relative;z-index:4;
+  box-shadow:0 -12px 30px rgba(170,135,150,.12);padding:15px 20px 10px;display:flex;flex-direction:column}
+.vg .c-top{display:flex;align-items:baseline;justify-content:space-between}
+.vg .c-top b{font-size:13px}
+.vg .c-top span{font-size:10px;color:var(--ink3)}
+.vg .c-moods{display:flex;gap:4px;margin-top:10px}
+.vg .li{display:flex;align-items:center;padding:13px 2px;border-top:1px solid var(--hair);cursor:pointer}
+.vg .li:first-of-type{margin-top:12px}
+.vg .li b{font-size:13px;font-weight:500}
+.vg .li span{margin-left:auto;font-size:10.5px;color:var(--ink3)}
+.vg .li em{font-style:normal;color:var(--ink3);margin-left:6px}
+</style>
+
+<style>
+/* ============ H · 杂志图版 ============ */
+.vh .body{padding:4px 20px 12px}
+.vh .top{display:flex;align-items:flex-end;padding:10px 0 2px;flex:none}
+.vh .xxs{width:100px;flex:none;cursor:pointer}
+.vh .xxs img{width:100%;mix-blend-mode:multiply;animation:flt 4s ease-in-out infinite}
+.vh .hbub{flex:1;background:#fff;border-radius:16px;padding:10px 13px;font-size:12.5px;line-height:1.6;
+  box-shadow:var(--shadow-s);cursor:pointer;position:relative;margin:0 0 14px 2px}
+.vh .hbub::before{content:'';position:absolute;left:-5px;bottom:12px;width:11px;height:11px;background:inherit;
+  transform:rotate(45deg);border-radius:2px}
+.vh .qcard{position:relative;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);height:292px;flex:none;margin-top:12px;cursor:pointer}
+.vh .qcard img.bgi{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vh .qv{position:absolute;inset:0;padding:20px 22px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.vh .q-lb{font-size:9px;letter-spacing:.26em;color:var(--ink2);font-weight:700}
+.vh .q-txt{font-family:var(--serif);font-size:15.5px;font-weight:700;line-height:1.9;margin-top:12px;color:#57424B;text-wrap:balance}
+.vh .q-au{margin-top:9px;font-size:10px;color:var(--ink2);letter-spacing:.1em}
+.vh .q-share{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;z-index:2;
+  background:rgba(255,255,255,.92);color:var(--rose-ink);font-size:10px;font-weight:700;
+  border-radius:999px;padding:6px 12px;box-shadow:var(--shadow-s)}
+.vh .q-share svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* 西西微表情层 */
+.vh .xxs{position:relative}
+.vh .xxs .fx{position:absolute;inset:0;width:100%;mix-blend-mode:multiply;opacity:0;transition:opacity .35s}
+.vh .xxs .fx.base{position:relative}
+.vh .xxs .fx.on{opacity:1}
+.vh .xxs.poke .fx.on{animation:poke .55s cubic-bezier(.3,1.6,.45,1)}
+@keyframes poke{0%{transform:scale(1)}35%{transform:scale(.88,.84) translateY(3px)}70%{transform:scale(1.07,1.12)}100%{transform:scale(1)}}
+.vh .ph:active{transform:scale(.97)}
+.vh .ck{display:flex;align-items:center;gap:10px;padding:14px 2px;border-top:1px solid var(--hair);
+  border-bottom:1px solid var(--hair);margin-top:15px;flex:none}
+.vh .ck .lb{font-size:11px;color:var(--ink2);flex:none}
+.vh .ck .c-moods{flex:1;display:flex;gap:3px}
+.vh .ck .c-moods .m svg{width:25px;height:25px;padding:6px}
+.vh .ck .c-moods .m i{display:none}
+.vh .ck .streak{font-size:9.5px;color:var(--ink3);flex:none}
+.vh .duo{display:flex;gap:10px;margin-top:14px;flex:none}
+.vh .ph{flex:1;height:92px;border-radius:18px;overflow:hidden;position:relative;cursor:pointer;
+  box-shadow:var(--shadow-s);border:none;font-family:var(--sans);padding:0;text-align:left}
+.vh .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vh .ph .vv{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,252,250,.08),rgba(255,251,248,.6))}
+.vh .ph .tx{position:absolute;left:12px;bottom:10px}
+.vh .ph .tx b{font-size:12.5px;display:block}
+.vh .ph .tx span{font-size:9px;color:var(--ink2)}
+.vh .foot-hint{margin-top:auto;text-align:center;font-size:9.5px;color:var(--ink3);padding:8px 0 4px;letter-spacing:.14em}
+/* ============ I · 对话流 ============ */
+.vi .body{padding:4px 20px 12px}
+.vi .flow{flex:1;display:flex;flex-direction:column;gap:12px;padding-top:18px;overflow:hidden}
+.vi .row{display:flex;gap:9px;align-items:flex-start;flex:none}
+.vi .row img.av{width:30px;height:30px;border-radius:50%;flex:none;margin-top:2px;box-shadow:0 3px 8px rgba(155,126,184,.3)}
+.vi .ibub{background:#fff;border-radius:18px;border-top-left-radius:6px;padding:11px 14px;font-size:12.8px;
+  line-height:1.65;box-shadow:var(--shadow-s);max-width:85%;cursor:pointer}
+.vi .ibub.q{font-family:var(--serif);font-weight:700;font-size:13.5px}
+.vi .ibub.q .q-au{display:block;font-family:var(--sans);font-weight:400;font-size:10px;color:var(--ink2);margin-top:6px}
+.vi .ibub .tl{display:inline-block;font-family:var(--sans);font-size:10.5px;color:var(--rose-ink);font-weight:700;margin-top:7px}
+.vi .ibub .c-moods{display:flex;gap:5px;margin-top:9px}
+.vi .ibub .c-moods .m svg{width:28px;height:28px;padding:7px}
+.vi .ibub .c-moods .m i{display:none}
+.vi .chips{display:flex;gap:8px;padding:0 0 0 39px;flex:none}
+.vi .chipx{flex:1;text-align:center;font-size:11px;color:var(--ink2);background:rgba(255,255,255,.7);
+  border:1px dashed var(--hair);border-radius:999px;padding:8px 0;cursor:pointer}
+.vi .dock{display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:8px 10px;
+  box-shadow:var(--shadow);flex:none;cursor:pointer}
+.vi .dock img{width:30px;height:30px;border-radius:50%}
+.vi .dock span{font-size:12.5px;color:var(--ink3)}
+.vi .dock .mc{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--rose-soft);
+  display:flex;align-items:center;justify-content:center}
+.vi .dock .mc svg{width:14px;height:14px;stroke:var(--rose-ink);fill:none;stroke-width:1.8;stroke-linecap:round}
+</style>
+
+<!-- ================================================== -->
+<!-- H · 杂志图版：分享卡即主视觉                        -->
+<!-- ================================================== -->
+<div class="unit">
+  <div class="cap"><b>H · 杂志图版</b><span>分享卡当主视觉 · 打卡/入口无卡化</span></div>
+  <div class="phone vh">
+    <div class="sbar"><span>9:41</span><span class="si">
+      <svg viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg viewBox="0 0 25 12"><rect x="0" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="3" width="13" height="6" rx="1.5"/><rect x="22" y="4" width="2.5" height="4" rx="1" opacity=".4"/></svg>
+    </span></div>
+    <div class="body">
+      <div class="top">
+        <div class="xxs" id="xxsH">
+          <img class="fx base on" src="../assets/xixi-3d.png" alt="西西">
+          <img class="fx" data-x="blink" src="../assets/xixi-3d-blink.png" alt="">
+          <img class="fx" data-x="wow" src="../assets/xixi-3d-wow.png" alt="">
+          <img class="fx" data-x="love" src="../assets/xixi-3d-love.png" alt="">
+        </div>
+        <div class="hbub" data-go="chat"><span class="bub-txt">晚上好呀，我在呢～</span></div>
+      </div>
+      <div class="qcard open-share">
+        <img class="bgi" src="../assets/share-card-bg.png" alt="">
+        <div class="qv">
+          <div class="q-lb">今日一句 · DAILY</div>
+          <div class="q-txt"></div>
+          <div class="q-au"></div>
+        </div>
+        <div class="q-share"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>分享</div>
+      </div>
+      <div class="ck">
+        <span class="lb">今日心情</span>
+        <div class="c-moods">
+          <button class="m" data-m="平静" style="--mc:#E9C9D3"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg><i>平静</i></button>
+          <button class="m" data-m="委屈" style="--mc:#CBD8EE"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg><i>委屈</i></button>
+          <button class="m" data-m="焦虑" style="--mc:#F3D9B8"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg><i>焦虑</i></button>
+          <button class="m" data-m="烦躁" style="--mc:#F0C4BC"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg><i>烦躁</i></button>
+          <button class="m" data-m="难过" style="--mc:#D7CBE9"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg><i>难过</i></button>
+        </div>
+        <span class="streak">已连续 6 天</span>
+      </div>
+      <div class="duo">
+        <button class="ph act-med"><img src="../assets/conc-sky.webp" alt=""><div class="vv"></div><div class="tx"><b>冥想呼吸</b><span>3 分钟 · 平复情绪</span></div></button>
+        <button class="ph act-slp"><img src="../assets/art/art-sleep.webp" alt=""><div class="vv"></div><div class="tx"><b>助眠安睡</b><span>白噪音 · 睡前陪伴</span></div></button>
+      </div>
+      <div class="foot-hint">西西 · 一直在</div>
+    </div>
+    <nav class="tabbar">
+      <div class="tab on"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>首页<span class="dot"></span></div>
+      <div class="tab" data-t="成长"><svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h13v13H6.5A2.5 2.5 0 0 0 4 19zm0 0a2.5 2.5 0 0 0 2.5 2.5H19"/></svg>成长<span class="dot"></span></div>
+      <div class="tab" data-t="真人咨询"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.8.3 5 2.1 5 5.4"/></svg>真人咨询<span class="dot"></span></div>
+      <div class="tab" data-t="我的"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>我的<span class="dot"></span></div>
+    </nav>
+  </div>
+</div>
+
+<!-- ================================================== -->
+<!-- I · 对话流：整个首页就是西西的一段话                  -->
+<!-- ================================================== -->
+<div class="unit">
+  <div class="cap"><b>I · 对话流</b><span>首页即对话 · 打卡也长在气泡里</span></div>
+  <div class="phone vi">
+    <div class="sbar"><span>9:41</span><span class="si">
+      <svg viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></svg>
+      <svg viewBox="0 0 25 12"><rect x="0" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="3" width="13" height="6" rx="1.5"/><rect x="22" y="4" width="2.5" height="4" rx="1" opacity=".4"/></svg>
+    </span></div>
+    <div class="body">
+      <div class="flow">
+        <div class="row">
+          <img class="av" src="../assets/avatar-ai.webp" alt="">
+          <div class="ibub" data-go="chat"><span class="bub-txt">晚上好呀，我在呢～</span></div>
+        </div>
+        <div class="row">
+          <img class="av" src="../assets/avatar-ai.webp" alt="">
+          <div class="ibub q">
+            <span class="q-txt"></span>
+            <span class="q-au"></span>
+            <span class="tl open-share">生成分享卡 ›</span>
+          </div>
+        </div>
+        <div class="row">
+          <img class="av" src="../assets/avatar-ai.webp" alt="">
+          <div class="ibub" style="cursor:default">今天感觉怎么样？
+            <div class="c-moods">
+              <button class="m" data-m="平静" style="--mc:#E9C9D3"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/></svg><i>平静</i></button>
+              <button class="m" data-m="委屈" style="--mc:#CBD8EE"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></svg><i>委屈</i></button>
+              <button class="m" data-m="焦虑" style="--mc:#F3D9B8"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg><i>焦虑</i></button>
+              <button class="m" data-m="烦躁" style="--mc:#F0C4BC"><svg viewBox="0 0 24 24"><path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/></svg><i>烦躁</i></button>
+              <button class="m" data-m="难过" style="--mc:#D7CBE9"><svg viewBox="0 0 24 24"><path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/></svg><i>难过</i></button>
+            </div>
+            <span class="tl streak" style="color:var(--ink3);font-weight:400">已连续 6 天</span>
+          </div>
+        </div>
+        <div class="chips">
+          <div class="chipx act-med">冥想呼吸 · 3 分钟</div>
+          <div class="chipx act-slp">助眠安睡 · 白噪音</div>
+        </div>
+      </div>
+      <div class="dock" data-go="chat">
+        <img src="../assets/avatar-ai.webp" alt="">
+        <span>想说什么，就说吧……</span>
+        <div class="mc"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+      </div>
+    </div>
+    <nav class="tabbar">
+      <div class="tab on"><svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>首页<span class="dot"></span></div>
+      <div class="tab" data-t="成长"><svg viewBox="0 0 24 24"><path d="M4 19V6a2 2 0 0 1 2-2h13v13H6.5A2.5 2.5 0 0 0 4 19zm0 0a2.5 2.5 0 0 0 2.5 2.5H19"/></svg>成长<span class="dot"></span></div>
+      <div class="tab" data-t="真人咨询"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.8.3 5 2.1 5 5.4"/></svg>真人咨询<span class="dot"></span></div>
+      <div class="tab" data-t="我的"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>我的<span class="dot"></span></div>
+    </nav>
+  </div>
+</div>
+
+</div>
+<script>
+/* ===== 数据 ===== */
+const QUOTES=[
+  ['我们曾如此期盼外界的认可，到最后才知道，世界是自己的，与他人毫无关系。','—— 杨绛'],
+  ['爱自己，是终身浪漫的开始。','—— 王尔德'],
+  ['温柔不是妥协，是见过风雨之后的选择。','—— 西西'],
+  ['你照顾了所有人，也要记得被自己照顾。','—— 西西'],
+  ['真正的强大，是允许自己偶尔不强大。','—— 西西'],
+  ['人间烟火气，最抚凡人心。','—— 汪曾祺'],
+  ['把日子过成自己喜欢的样子，什么时候开始都不晚。','—— 西西'],
+  ['愿你成为自己的太阳，无需凭借谁的光。','—— 西西']
+];
+let qi=0;
+const now=new Date(),H=now.getHours();
+const GREET=H<5?'夜深了':H<11?'早上好':H<14?'中午好':H<18?'下午好':'晚上好';
+const BUBBLES=[GREET+'呀，我在呢～','今天也辛苦啦','想我了就戳戳我','心里有事？说给我听',
+  '喝口水，慢慢来','我在呢，不急','今天照顾好自己了吗','风吹过来的时候，我也在'];
+const POKES=['西西蹭了蹭你 ◡̈','西西绕着你转了一圈','被你戳得晃了晃','西西眨了眨眼',
+  '再戳我就要飘走啦','西西听见了你的召唤','我在，一直都在'];
+const MOOD_REPLY={
+  '平静':'平静很好 · 今天也稳稳的',
+  '委屈':'委屈就说出来 · 西西听着',
+  '焦虑':'先深呼吸一下 · 我在',
+  '烦躁':'烦躁倒给我 · 就不硌你了',
+  '难过':'抱抱你 · 难过不用藏'
+};
+/* ===== 每机一套 ===== */
+document.querySelectorAll('.phone').forEach(ph=>{
+  /* toast */
+  const toast=document.createElement('div');toast.className='toastx';ph.appendChild(toast);
+  let tt;ph._toast=m=>{toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),2000);};
+  /* 分享卡弹层 */
+  const share=document.createElement('div');share.className='share';
+  share.innerHTML='<div class="share-card"><img class="bgimg" src="../assets/share-card-bg.png" alt="">'
+    +'<div class="ov"><div class="brand">西西 · 每日一句</div><div class="sq"></div><div class="sa"></div>'
+    +'<div class="foot">陪你把日子过软</div></div></div>'
+    +'<div class="share-acts"><button class="save">保存图片</button><button class="close">关闭</button></div>';
+  ph.appendChild(share);
+  const openShare=()=>{
+    share.querySelector('.sq').textContent='「'+QUOTES[qi][0]+'」';
+    share.querySelector('.sa').textContent=QUOTES[qi][1];
+    share.classList.add('show');
+  };
+  share.querySelector('.close').onclick=()=>share.classList.remove('show');
+  share.querySelector('.save').onclick=()=>{share.classList.remove('show');ph._toast('分享卡已保存（演示）');};
+  share.addEventListener('click',e=>{if(e.target===share)share.classList.remove('show');});
+  ph.querySelectorAll('.open-share').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openShare();}));
+  /* 跳转聊天 */
+  ph.querySelectorAll('[data-go="chat"]').forEach(b=>b.addEventListener('click',()=>{location.href='index.html#s-chat';}));
+  /* 冥想 / 助眠 / tab */
+  ph.querySelectorAll('.act-med').forEach(b=>b.addEventListener('click',()=>ph._toast('3 分钟呼吸练习即将开始（演示）')));
+  ph.querySelectorAll('.act-slp').forEach(b=>b.addEventListener('click',()=>ph._toast('睡前陪伴 · 白噪音（演示）')));
+  ph.querySelectorAll('.tab[data-t]').forEach(t=>t.addEventListener('click',()=>ph._toast('「'+t.dataset.t+'」· 演示占位')));
+});
+/* ===== H 西西微表情：闲时眨眼 / 戳戳惊讶 / 打卡爱心 ===== */
+const xxH=document.getElementById('xxsH');
+if(xxH){
+  const fxs=[...xxH.querySelectorAll('.fx')];
+  const xShow=(n,dur)=>{
+    fxs.forEach(i=>i.classList.toggle('on',i.classList.contains(n)||i.dataset.x===n));
+    if(dur)setTimeout(()=>xShow('base'),dur);
+  };
+  /* 待机也活着：每 4 秒眨一次眼，每第 4 次换成冒爱心 */
+  let idleN=0;
+  setInterval(()=>{
+    idleN++;
+    const face=idleN%4===0?'love':'blink';
+    xShow(face);setTimeout(()=>xShow('base'),face==='love'?1500:1100);
+  },4000);
+  xxH.addEventListener('click',()=>{
+    xxH.classList.remove('poke');void xxH.offsetWidth;xxH.classList.add('poke');
+    xShow('wow',1300);
+    xxH.closest('.phone')._toast(POKES[Math.floor(Math.random()*POKES.length)]);
+  });
+  window._xixiLove=()=>xShow('love',2000);
+}
+/* ===== 气泡轮播 ===== */
+let bi=0;
+setInterval(()=>{bi=(bi+1)%BUBBLES.length;
+  document.querySelectorAll('.bub-txt').forEach(t=>t.textContent=BUBBLES[bi]);},5000);
+/* ===== 金句渲染与切换 ===== */
+function renderQuote(){
+  document.querySelectorAll('.q-txt').forEach(t=>t.textContent='「'+QUOTES[qi][0]+'」');
+  document.querySelectorAll('.q-au').forEach(t=>t.textContent=QUOTES[qi][1]);
+}
+renderQuote();
+document.querySelectorAll('.q-txt').forEach(t=>t.addEventListener('click',e=>{
+  e.stopPropagation();qi=(qi+1)%QUOTES.length;renderQuote();}));
+/* ===== 情绪打卡 ===== */
+document.querySelectorAll('.c-moods').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const b=e.target.closest('.m');if(!b)return;
+    g.querySelectorAll('.m').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const ph=g.closest('.phone');
+    const st=ph.querySelector('.streak');if(st)st.textContent='已连续 7 天 · 今日已打卡';
+    ph._toast(MOOD_REPLY[b.dataset.m]||'打卡成功');
+    if(window._xixiLove&&ph.querySelector('#xxsH'))window._xixiLove();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V2 · 晨雾拾光 — 当前困扰</title>
+<style>
+:root{
+  --ink:#7A636C; --ink2:#A8939C; --ink3:#CDBFC6;
+  --gold:#D9B98A; --gold-deep:#C9A96E; --rose:#DFA9B8;
+  --serif:'Noto Serif SC','Songti SC','STSong',serif;
+  --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:var(--sans);background:#efe8ea;display:grid;place-items:center;min-height:100vh}
+.stage{
+  width:390px;height:844px;position:relative;overflow:hidden;color:var(--ink);
+  background:#FBF7F2 url(../../assets/conc-dawn.webp) center/cover no-repeat;
+  box-shadow:0 40px 90px rgba(150,110,125,.35);
+}
+.veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(255,252,248,.34) 0%,rgba(255,252,248,.1) 32%,rgba(255,250,246,.42) 70%,rgba(255,248,244,.72) 100%)}
+/* 柔光斑 */
+.glow{position:absolute;border-radius:50%;filter:blur(30px);z-index:1;pointer-events:none}
+.g1{width:200px;height:200px;background:rgba(255,255,255,.9);top:-50px;right:-40px}
+.g2{width:160px;height:160px;background:rgba(250,228,214,.7);top:280px;left:-60px}
+.g3{width:180px;height:180px;background:rgba(243,222,232,.65);bottom:120px;right:-50px}
+/* 浮游光点 */
+.mote{position:absolute;border-radius:50%;background:#E8CFA5;animation:tw 3.4s infinite;z-index:2}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:.8;transform:scale(1.1)}}
+/* 光线 */
+.ray{position:absolute;top:-40px;right:60px;width:120px;height:340px;z-index:1;pointer-events:none;
+  background:linear-gradient(200deg,rgba(255,244,220,.55),transparent 70%);transform:rotate(18deg);filter:blur(8px)}
+/* 星座连线 */
+.const{position:absolute;top:64px;left:24px;z-index:2;opacity:.55}
+.const line{stroke:rgba(201,169,110,.6);stroke-width:.7;stroke-dasharray:2 3}
+.const circle{fill:#D9B98A}
+.sb{position:absolute;top:0;left:0;right:0;height:46px;z-index:20;display:flex;align-items:center;
+  justify-content:space-between;padding:14px 24px 0;font-size:13.5px;font-weight:600;color:#8d7681}
+.sb .si{display:flex;align-items:center;gap:6px}
+.wrap{position:absolute;inset:0;z-index:5;padding:56px 22px 0;display:flex;flex-direction:column}
+.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.moons{display:flex;gap:7px;align-items:center}
+.moons i{width:9px;height:9px;border-radius:50%;border:1.2px solid rgba(201,169,110,.55);background:rgba(255,255,255,.5)}
+.moons i.done{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(217,185,138,.7)}
+.moons i.now{background:rgba(217,185,138,.4);animation:breath 2s infinite}
+@keyframes breath{50%{box-shadow:0 0 12px rgba(217,185,138,.9)}}
+.moons span{font-size:11px;color:var(--ink2);margin-left:6px;letter-spacing:.2em}
+.skip{border:1px solid rgba(201,169,110,.4);background:rgba(255,255,255,.5);backdrop-filter:blur(6px);
+  font-size:12.5px;color:var(--ink2);cursor:pointer;font-family:var(--sans);padding:5px 12px;border-radius:999px}
+.ttl{text-align:center;margin-bottom:14px}
+.kicker{font-size:10.5px;letter-spacing:.4em;color:var(--gold-deep);margin-bottom:12px;font-weight:600}
+h1{font-family:var(--serif);font-size:27px;font-weight:700;line-height:1.5;letter-spacing:.06em;color:#6E5861;
+  text-shadow:0 1px 14px rgba(255,255,255,.9)}
+h1 em{font-style:normal;color:var(--gold-deep)}
+.sub{margin-top:10px;font-size:12px;color:var(--ink2);letter-spacing:.08em}
+/* 玻璃格 */
+.grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:center;padding:10px 0 14px}
+.opt{position:relative;display:flex;align-items:center;gap:9px;height:50px;padding:0 13px;cursor:pointer;
+  border-radius:16px;border:1px solid rgba(255,255,255,.95);color:var(--ink);
+  background:rgba(255,255,255,.52);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 4px 14px rgba(180,140,155,.12);
+  font-family:var(--sans);font-size:13px;text-align:left;
+  transition:background .25s,border-color .25s,transform .18s,box-shadow .3s;
+  animation:fadeUp .6s cubic-bezier(.22,.9,.32,1) both;animation-delay:calc(.3s + var(--i)*.06s)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.opt svg{width:17px;height:17px;stroke:var(--gold-deep);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:.25s}
+.opt:active{transform:scale(.96)}
+.opt.on{background:linear-gradient(135deg,#F7E7CB,#F3D9B4);color:#93703F;
+  border-color:rgba(235,207,165,.95);box-shadow:0 0 22px rgba(217,185,138,.5),0 6px 14px rgba(180,140,110,.18)}
+.opt.on svg{stroke:#93703F}
+.opt .ck{position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:#fff;color:var(--gold-deep);
+  font-size:10px;display:grid;place-items:center;opacity:0;transform:scale(0);box-shadow:0 2px 6px rgba(180,140,110,.3)}
+.opt.on .ck{animation:ck .3s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes ck{to{opacity:1;transform:scale(1)}}
+.opt.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+/* 底部 */
+.foot{padding:4px 0 24px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.cta{width:100%;height:54px;border:none;border-radius:999px;cursor:pointer;color:#93703F;
+  font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:.14em;
+  background:linear-gradient(135deg,#F6E3C6,#EFD0A8);position:relative;
+  box-shadow:0 0 26px rgba(217,185,138,.45),0 10px 22px rgba(180,140,110,.2);
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s,opacity .25s,filter .25s;
+  animation:ctaGlow 2.6s infinite}
+@keyframes ctaGlow{50%{box-shadow:0 0 40px rgba(217,185,138,.65),0 10px 22px rgba(180,140,110,.2)}}
+.cta:active{transform:scale(.97)}
+.cta.dis{filter:grayscale(.45);opacity:.5;animation:none}
+.note{font-size:10.5px;color:var(--ink3);letter-spacing:.12em}
+.rise{opacity:0;animation:fadeUp .7s cubic-bezier(.22,.9,.32,1) forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.16s}.d3{animation-delay:.28s}.d4{animation-delay:.7s}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="veil"></div>
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  <div class="ray"></div>
+  <svg class="const" width="120" height="80" viewBox="0 0 120 80">
+    <line x1="10" y1="60" x2="45" y2="30"/><line x1="45" y1="30" x2="80" y2="45"/><line x1="80" y1="45" x2="108" y2="14"/>
+    <circle cx="10" cy="60" r="2.2"/><circle cx="45" cy="30" r="2.6"/><circle cx="80" cy="45" r="2"/><circle cx="108" cy="14" r="2.8"/>
+  </svg>
+  <div class="sb"><span>9:41</span><div class="si">
+    <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect y="7" width="3" height="4" rx="1"/><rect x="4.5" y="5" width="3" height="6" rx="1"/><rect x="9" y="2.5" width="3" height="8.5" rx="1"/><rect x="13.5" width="3" height="11" rx="1"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1.5 4.5a10 10 0 0 1 13 0"/><path d="M4 7a6 6 0 0 1 8 0"/><circle cx="8" cy="9.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+    <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".5" y=".5" width="21" height="11" rx="3.5" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/><path d="M23.5 4v4a2 2 0 0 0 0-4z" fill="currentColor" opacity=".4"/></svg>
+  </div></div>
+  <div class="wrap">
+    <div class="head rise d1">
+      <div class="moons"><i class="done"></i><i class="now"></i><i></i><i></i><span>02 / 04</span></div>
+      <button class="skip">暂时不想说</button>
+    </div>
+    <div class="ttl">
+      <div class="kicker rise d2">当前困扰 · 多选，最多 3 项</div>
+      <h1 class="rise d2">最近，哪些事<br>让你想<em>找人说说</em>？</h1>
+      <div class="sub rise d3">天亮了也没关系 · 选最接近的就好，之后可改</div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="foot rise d4">
+      <button class="cta dis" id="cta"><span id="ctaTxt">继续 · 已选 0/3</span><span>→</span></button>
+      <div class="note">你的回答只用于提供更合适的陪伴</div>
+    </div>
+  </div>
+</div>
+<script>
+const OPTS=[
+ ['伴侣沟通不顺','M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z'],
+ ['婚姻出现变化','M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8zM12 5.6l-1.6 4 3 2.5-1.9 4.4'],
+ ['对关系感到不安','M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'],
+ ['家庭/亲子压力','M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'],
+ ['情绪起伏大','M2 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 15c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0'],
+ ['工作生活压力大','M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2'],
+ ['失眠、想太多','M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'],
+ ['孤独、没人理解','M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'],
+ ['想更了解自己','M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z'],
+ ['只是想说说话','M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4zM6 2v2M10 2v2M14 2v2'],
+];
+// 浮游光点
+const stage=document.getElementById('stage');
+for(let i=0;i<14;i++){
+  const s=document.createElement('i');s.className='mote';
+  const sz=(Math.random()*3+2).toFixed(1);
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*92+2}%;top:${Math.random()*60+4}%;animation-delay:${(Math.random()*3).toFixed(2)}s;animation-duration:${(Math.random()*2+2.4).toFixed(2)}s`;
+  stage.appendChild(s);
+}
+const MAX=3, sel=new Set();
+const grid=document.getElementById('grid'), cta=document.getElementById('cta'), ctaTxt=document.getElementById('ctaTxt');
+OPTS.forEach(([name,d],i)=>{
+  const b=document.createElement('button');
+  b.className='opt'; b.style.setProperty('--i',i);
+  b.innerHTML=`<svg viewBox="0 0 24 24"><path d="${d}"/></svg><span>${name}</span><span class="ck">✓</span>`;
+  b.onclick=()=>{
+    if(sel.has(i)){sel.delete(i);b.classList.remove('on')}
+    else{
+      if(sel.size>=MAX){b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return}
+      sel.add(i);b.classList.add('on');
+    }
+    update();
+  };
+  grid.appendChild(b);
+});
+function update(){
+  ctaTxt.textContent=`继续 · 已选 ${sel.size}/${MAX}`;
+  cta.classList.toggle('dis',sel.size===0);
+}
+cta.onclick=()=>{
+  if(sel.size===0){cta.classList.remove('shake');void cta.offsetWidth;cta.classList.add('shake');return}
+  ctaTxt.textContent='好，都记下了 ✧';
+  setTimeout(update,1100);
+};
+update();
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "files.watcherExclude": {
+    "**/shots/**": true,
+    "**/*.png": true,
+    "**/demo/index.monolith.bak.html": true,
+    "**/.git/objects/**": true
+  },
+  "files.exclude": {
+    "**/shots": true,
+    "**/demo/index.monolith.bak.html": true,
+    "**/_optimize_build.py": true,
+    "**/_fix_html.py": true
+  },
+  "search.exclude": {
+    "**/shots": true,
+    "**/*.png": true,
+    "**/demo/index.monolith.bak.html": true
+  }
+}

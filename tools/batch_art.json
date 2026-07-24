@@ -1,0 +1,17 @@
+{
+  "jobs": 3,
+  "tasks": [
+    {"id": "art-quote", "image": "../assets/art/art-quote.png", "ar": "4:3", "quality": "2k",
+     "prompt": "Soft misty watercolor abstract, high-key bright airy tones, a gentle blush of warm rose diffusing into cream white, heavily blurred dreamy edges, tranquil, minimal, lots of white space, no text, no words, no purple"},
+    {"id": "art-feat", "image": "../assets/art/art-feat.png", "ar": "16:9", "quality": "2k",
+     "prompt": "Soft misty watercolor landscape, rolling pale sage-green hills fading into bright morning fog, a few tiny dark human silhouettes walking far away, high-key bright muted palette, dreamy heavily blurred edges, minimal, no text, no words"},
+    {"id": "art-mini-legal", "image": "../assets/art/art-mini-legal.png", "ar": "1:1", "quality": "2k",
+     "prompt": "Soft misty watercolor still life, a tiny brass balance scale standing on cream linen cloth, high-key bright muted beige and sage tones, heavily blurred dreamy soft focus, minimal, lots of white space, no text, no words"},
+    {"id": "art-mini-family", "image": "../assets/art/art-mini-family.png", "ar": "1:1", "quality": "2k",
+     "prompt": "Soft misty watercolor scene, a small wooden house with two soft blurred silhouettes at its door in a foggy pale garden, high-key bright muted sage and cream tones, dreamy soft focus, minimal, no text, no words"},
+    {"id": "art-mini-growth", "image": "../assets/art/art-mini-growth.png", "ar": "1:1", "quality": "2k",
+     "prompt": "Soft misty watercolor scene, a single tender sprout growing from a small ceramic pot toward bright window light, high-key bright muted green and cream palette, dreamy heavily blurred soft focus, minimal, no text, no words"},
+    {"id": "art-sleep", "image": "../assets/art/art-sleep.png", "ar": "16:9", "quality": "2k",
+     "prompt": "Soft misty watercolor night scene, a pale crescent moon above quiet blurred rolling hills, high-key muted teal and pale blue-grey palette, dreamy soft focus, tranquil and calm, minimal, no text, no words, no purple"}
+  ]
+}
