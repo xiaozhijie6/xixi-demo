@@ -461,7 +461,7 @@ function toast(msg){
   const t=els.toast;
   t.textContent=msg;t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer=later(()=>t.classList.remove('show'),2200);
+  toastTimer=later(()=>t.classList.remove('show'),1600);
 }
 /* ============ AI树洞 ============ */
 const chatBody=els.chatBody;

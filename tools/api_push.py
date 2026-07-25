@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "卡片形状个性化：金句卡微倾不对称圆角、日历卡鹅卵石、冥想圆拱顶、助眠反拱、详细页双卡异形，资源版本号v20260725"
+MSG = "修复toast：穿透点击不挡功能键，时长2.2s降至1.6s"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
