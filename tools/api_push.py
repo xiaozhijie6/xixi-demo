@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "成长页改版：公众号式排版（本周主题/封面文章/咨询师感悟/用户分享/往期主题），真实内容，时间按真实日期同步"
+MSG = "成长页接真实内容：封面文换十点读书《好的关系，都自带边界感》，新增名家书房（周国平/杨绛/蔡康永），去掉主题封面文章标签"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
