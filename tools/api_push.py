@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "情绪可视化：5款emo表情脸（SVG手绘），详细页周日历改弧度展示，纯色背景衬托玻璃拟态"
+MSG = "心情月历详细页改版：背景收回高短调，日历/情绪拆分为上下两卡，去掉弧度改周表情脸横排"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []

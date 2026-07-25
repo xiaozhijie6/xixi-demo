@@ -858,28 +858,19 @@ const HOME_MOOD_REPLY={
         +(mi!=null?'<i class="dot" style="--mc:'+GCM[gcNames[mi]]+'"></i>':'')+'</div>';
     }
     document.getElementById('mcGrid').innerHTML=h;
-    /* 弧度周日历 */
-    const arc=document.getElementById('mcArc');
-    if(arc){
+    /* 本周情绪行（表情脸） */
+    const wk=document.getElementById('mcWeek');
+    if(wk){
       const dow=(gcNow.getDay()+6)%7,WD=['一','二','三','四','五','六','日'];
-      const cx=170,cy=86,rx=150,ry=46;
-      const pt=i=>{const a=(200-i*36.67)*Math.PI/180;return [cx+rx*Math.cos(a),cy-ry*Math.sin(a)];};
-      const [ax0,ay0]=pt(0),[ax1,ay1]=pt(6);
-      let h='<path class="al" d="M'+ax0+' '+ay0+' A'+rx+' '+ry+' 0 0 0 '+ax1+' '+ay1+'"/>';
+      document.getElementById('mcWeekCap').textContent=(gcMo+1)+'月'+(gcToday-dow)+'日 – '+(gcMo+1)+'月'+(gcToday-dow+6)+'日';
+      let h='';
       for(let i=0;i<7;i++){
-        const [x,y]=pt(i),d=gcToday-dow+i,fut=i>dow,mi=fut?null:gcHist[d],isT=i===dow;
-        h+='<text class="wd2" x="'+x+'" y="'+(y-19)+'">'+WD[i]+'</text>';
-        if(fut){
-          h+='<circle class="fut-c" cx="'+x+'" cy="'+y+'" r="12"/>'
-            +'<text class="num" x="'+x+'" y="'+(y+3.5)+'">'+d+'</text>';
-        }else{
-          const n=mi!=null?gcNames[mi]:'平静';
-          h+=(isT?'<circle class="today-c" cx="'+x+'" cy="'+y+'" r="16"/>':'')
-            +'<g transform="translate('+(x-13)+','+(y-13)+') scale(1.083)">'+FACE[n]+'</g>'
-            +'<text class="num" x="'+x+'" y="'+(y+26)+'">'+d+'</text>';
-        }
+        const d=gcToday-dow+i,fut=i>dow,mi=fut?null:gcHist[d],isT=i===dow;
+        h+='<div class="mw'+(isT?' today':'')+(fut?' fut':'')+'">'
+          +(fut?'<span class="fh">'+d+'</span>':faceSvg(mi!=null?gcNames[mi]:'平静'))
+          +'<span class="wl">'+WD[i]+' '+d+'</span></div>';
       }
-      arc.innerHTML=h;
+      wk.innerHTML=h;
     }
     /* 表情脸选择器 */
     const mp=document.getElementById('mcMoods');

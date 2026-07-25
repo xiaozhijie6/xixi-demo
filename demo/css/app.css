@@ -146,8 +146,18 @@ body{
 /* 子页面内容避开悬浮顶栏 */
 #s-prediag .inner,#s-report .inner,#s-consultants .inner,#s-cdetail .inner,
 #s-sleep .inner,#s-content .inner,#s-me .inner,#s-moodcal .inner{padding-top:calc(118px + env(safe-area-inset-top))}
-/* 详细页纯色背景：衬托玻璃拟态 */
-#s-moodcal{background:linear-gradient(165deg,#EBD4DA 0%,#D9CDE7 55%,#D3C7E3 100%)}
+/* 详细页背景：高短调 */
+#s-moodcal{background:radial-gradient(620px 420px at 88% -6%,#F4EAE4 0%,transparent 62%),#F7F6F4}
+/* 详细页上下分卡 */
+.gcal.mmood{margin-top:14px}
+.mc-sub{font-size:10px;color:var(--ink-3)}
+.mrow{display:flex;justify-content:space-between;padding:2px 2px 0}
+.mrow .mw{display:flex;flex-direction:column;align-items:center;gap:5px}
+.mrow .mw svg{width:30px;height:30px;border-radius:50%;display:block}
+.mrow .mw .wl{font-size:9.5px;color:var(--ink-3)}
+.mrow .mw.today svg{outline:2px solid var(--rose-deep);outline-offset:2px}
+.mrow .mw.fut .fh{width:30px;height:30px;border-radius:50%;border:1.6px dashed var(--ink-3);
+  display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);opacity:.7}
 /* 弧度周日历 */
 .mc-arc{width:100%;height:128px;margin-top:6px;display:block}
 .mc-arc .al{fill:none;stroke:rgba(255,255,255,.75);stroke-width:1.6}

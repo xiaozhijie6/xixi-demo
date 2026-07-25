@@ -418,13 +418,21 @@
     <!-- ========== S1.5 心情月历（详细页） ========== -->
     <section class="screen" id="s-moodcal">
       <div class="inner">
+        <!-- 上：日历卡 -->
         <div class="gcal mcal">
           <div class="gc-bg"></div>
           <div class="gc-in">
             <div class="mc-head"><b id="mcTitle">7月 · 心情月历</b><span class="gc-streak" id="mcStreak">连续记录 6 天</span></div>
-            <svg class="mc-arc" id="mcArc" viewBox="0 0 340 132" preserveAspectRatio="none"></svg>
             <div class="wk-row"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
             <div class="mc-grid" id="mcGrid"></div>
+          </div>
+        </div>
+        <!-- 下：情绪卡 -->
+        <div class="gcal mcal mmood">
+          <div class="gc-bg"></div>
+          <div class="gc-in">
+            <div class="mc-head"><b>本周心情</b><span class="mc-sub" id="mcWeekCap"></span></div>
+            <div class="mrow" id="mcWeek"></div>
             <div class="mc-pick">
               <span class="mc-cap">记录今天的心情</span>
               <div class="c-moods" id="mcMoods"></div>
