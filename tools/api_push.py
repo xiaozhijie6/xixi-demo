@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "新增西西手记：铁丝圈笔记本组件（成长页主题下），点开信笺写作+心情标签+西西回信"
+MSG = "手记页排版字体精修：标题区节奏、留下高亮、纸片标签、横线行距32px、渐变按钮字距"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
