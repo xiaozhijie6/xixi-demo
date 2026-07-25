@@ -905,3 +905,29 @@ const HOME_MOOD_REPLY={
     e.textContent=n===0?'今天':n===1?'昨天':n+'天前';
   });
 })();
+
+/* ---- 西西手记：铁丝圈笔记本 → 信笺写作 ---- */
+(function(){
+  const jnl=document.getElementById('jnl');if(!jnl)return;
+  const now=new Date(),WD=['日','一','二','三','四','五','六'];
+  document.getElementById('jnlDate').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日 周'+WD[now.getDay()];
+  document.getElementById('jrDate').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日 · 星期'+WD[now.getDay()];
+  const write=document.getElementById('jnlWrite'),reply=document.getElementById('jnlReply');
+  document.getElementById('nbOpen').addEventListener('click',()=>{
+    write.style.display='';reply.classList.remove('show');
+    jnl.classList.add('show');
+  });
+  document.getElementById('jnlClose').onclick=()=>jnl.classList.remove('show');
+  document.getElementById('jnlChips').addEventListener('click',e=>{
+    const c=e.target.closest('.jc');if(!c)return;
+    document.querySelectorAll('#jnlChips .jc').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+  });
+  document.getElementById('jnlSend').addEventListener('click',()=>{
+    const v=document.getElementById('jnlText').value.trim();
+    if(!v){toast('先写一句吧，哪怕一句也好');return;}
+    write.style.display='none';reply.classList.add('show');
+    document.getElementById('nbCount').textContent='已记 4 篇';
+    toast('已放进你的手记');
+  });
+})();

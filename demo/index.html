@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/app.css?v=20260728">
+<link rel="stylesheet" href="css/app.css?v=20260729">
 </head>
 <body>
 <!-- ============ 左侧演示信息栏 ============ -->
@@ -358,6 +358,20 @@
           <div class="tm"><span data-weekrange>7月20日 – 7月26日</span> · 每周一更新 · 已更新 6 篇</div>
         </div>
 
+        <!-- 西西手记（铁丝圈笔记本组件 · 点开写手记） -->
+        <div class="nb rise d2" id="nbOpen">
+          <div class="nb-spiral"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="nb-stack">
+            <div class="nb-page p1"></div>
+            <div class="nb-page p2"></div>
+            <div class="nb-page p3">
+              <div class="nb-title"><b>西西手记</b><span>XI'S JOURNAL</span></div>
+              <div class="nb-line">今天，想留下点什么？</div>
+              <div class="nb-meta"><span id="nbCount">已记 3 篇</span><span class="nb-go">打开写手记 ›</span></div>
+            </div>
+          </div>
+        </div>
+
         <!-- 封面文章（真实内容 · 十点读书） -->
         <div class="gr-feat rise d2" onclick="toast('文章详情 · 演示版')">
           <div class="cov" style="background-image:url('../assets/art/art-feat.webp'),linear-gradient(135deg,#E4E9DE,#D2DCC8)"></div>
@@ -571,6 +585,36 @@
       </div>
     </div>
 
+    <!-- 西西手记弹层 -->
+    <div class="jnl" id="jnl">
+      <div class="jnl-in">
+        <div class="jnl-head">
+          <b>西西手记</b><span>XI'S JOURNAL · <i id="jnlDate">7月25日 周六</i></span>
+          <button class="jnl-x" id="jnlClose">✕</button>
+        </div>
+        <div class="jnl-write" id="jnlWrite">
+          <div class="jnl-q">今天，想留下点什么？</div>
+          <div class="jnl-chips" id="jnlChips">
+            <button class="jc" data-m="平静">平静</button>
+            <button class="jc" data-m="有点累">有点累</button>
+            <button class="jc" data-m="说不清">说不清</button>
+            <button class="jc" data-m="想被夸夸">想被夸夸</button>
+            <button class="jc" data-m="一点开心">一点开心</button>
+          </div>
+          <textarea id="jnlText" rows="4" placeholder="从最想说的那句开始……" maxlength="300"></textarea>
+          <button class="jnl-send" id="jnlSend">交给西西 →</button>
+        </div>
+        <div class="jnl-reply" id="jnlReply">
+          <div class="jr-date" id="jrDate">7月25日 · 星期六</div>
+          <p>早安：</p>
+          <p>昨晚的事，我记下了。</p>
+          <p class="hl">难受是真的，被听见也是真的。</p>
+          <p>今天不用振作。乱了，来树洞坐坐。</p>
+          <div class="jr-sign">—— 西西</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 首页金句分享卡弹层 -->
     <div class="h3-share" id="homeShare">
       <div class="h3-share-card">
@@ -591,6 +635,6 @@
     <div class="toast" id="toast"></div>
   </div>
 </div>
-<script src="js/app.js?v=20260728" defer></script>
+<script src="js/app.js?v=20260729" defer></script>
 </body>
 </html>

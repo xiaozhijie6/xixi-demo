@@ -3,8 +3,8 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "chore: 清理注释中的旧标签字样"
-CHANGED = ["demo/index.html", "tools/api_push.py"]
+MSG = "新增西西手记：铁丝圈笔记本组件（成长页主题下），点开信笺写作+心情标签+西西回信"
+CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
 
