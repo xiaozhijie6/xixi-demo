@@ -820,12 +820,16 @@ const HOME_MOOD_REPLY={
     xShow('wow',1300);
     toast(HOME_POKES[Math.floor(Math.random()*HOME_POKES.length)]);
   });
-  /* 心情日历：首页紧凑卡 + 月历详细页 */
-  const GCM={'平静':['#DCC6C0','<path d="M3 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>',5],
-    '委屈':['#C7D0DA','<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',3],
-    '焦虑':['#E4D6BC','<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',2],
-    '烦躁':['#DFBCB2','<path d="M12 3c1.2 3-3.5 5-3.5 9.5a5.5 5.5 0 0 0 11 0C19.5 9 15 7 12 3z"/>',2],
-    '难过':['#CDC2D4','<path d="M7 15a4 4 0 1 1 .8-7.9A5 5 0 0 1 17 8.6 3.5 3.5 0 0 1 16.5 15H7z"/><path d="M8 18l-1 2.5M13 18l-1 2.5M18 18l-1 2.5"/>',1]};
+  /* 心情日历：emo 表情脸 + 首页紧凑卡 + 弧度月历详细页 */
+  const GCM={'平静':'#DCC6C0','委屈':'#C7D0DA','焦虑':'#E4D6BC','烦躁':'#DFBCB2','难过':'#CDC2D4'};
+  const FACE={
+    '平静':'<circle cx="12" cy="12" r="11" fill="#DCC6C0"/><path d="M7.6 10.4q1.2-1.4 2.5 0M13.9 10.4q1.2-1.4 2.5 0" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M8.7 14.2q3.3 2.4 6.6 0" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+    '委屈':'<circle cx="12" cy="12" r="11" fill="#C7D0DA"/><path d="M7.3 9.7l2.5-1.5M16.7 9.7l-2.5-1.5" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/><circle cx="8.8" cy="11.8" r=".95" fill="#fff"/><circle cx="15.2" cy="11.8" r=".95" fill="#fff"/><path d="M9.4 15.9q2.6-1.9 5.2 0" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+    '焦虑':'<circle cx="12" cy="12" r="11" fill="#E4D6BC"/><circle cx="8.6" cy="10.6" r="1.25" fill="#fff"/><circle cx="15.4" cy="10.6" r="1.25" fill="#fff"/><path d="M7.6 15.2l1.4-1.3 1.5 1.3 1.5-1.3 1.5 1.3 1.4-1.3" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    '烦躁':'<circle cx="12" cy="12" r="11" fill="#DFBCB2"/><path d="M7 9.4l3 1.5M17 9.4l-3 1.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="12.1" r=".95" fill="#fff"/><circle cx="15" cy="12.1" r=".95" fill="#fff"/><path d="M9 16.4q3-2.3 6 0" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+    '难过':'<circle cx="12" cy="12" r="11" fill="#CDC2D4"/><path d="M7.9 10.6q1.1-1.2 2.3 0M13.8 10.6q1.1-1.2 2.3 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M8.1 13.4c-1.1 1.5-.9 2.8.3 3.1s2.1-.8 1.3-2.2z" fill="#fff"/><path d="M10.2 17.1q2.2-1.7 4.4 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>'
+  };
+  const faceSvg=n=>'<svg viewBox="0 0 24 24">'+FACE[n]+'</svg>';
   const gcNames=Object.keys(GCM);
   const gcNow=new Date(),gcY=gcNow.getFullYear(),gcMo=gcNow.getMonth(),gcToday=gcNow.getDate();
   const DIM=new Date(gcY,gcMo+1,0).getDate(),FIRST=(new Date(gcY,gcMo,1).getDay()+6)%7;
@@ -836,34 +840,52 @@ const HOME_MOOD_REPLY={
   function renderHomeGc(){
     const mi=gcHist[gcToday],n=mi!=null?gcNames[mi]:null;
     const miEl=document.getElementById('gcMi'),mlEl=document.getElementById('gcMl');
-    if(n){miEl.classList.remove('none');miEl.style.setProperty('--mc',GCM[n][0]);
-      miEl.innerHTML='<svg viewBox="0 0 24 24">'+GCM[n][1]+'</svg>';
+    if(n){miEl.classList.add('fxface');miEl.classList.remove('none');miEl.innerHTML=faceSvg(n);
       mlEl.textContent='今天 · '+n;}
-    else{miEl.classList.add('none');miEl.style.removeProperty('--mc');
+    else{miEl.classList.remove('fxface');miEl.classList.add('none');
       miEl.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>';
       mlEl.textContent='还没记心情';}
   }
   function renderMcal(){
     const t=document.getElementById('mcTitle');if(!t)return;
     t.textContent=(gcMo+1)+'月 · 心情月历';
+    /* 月历格 */
     let h='';
     for(let i=0;i<FIRST;i++)h+='<div class="mc-cell fut"></div>';
     for(let d=1;d<=DIM;d++){
       const mi=gcHist[d],isT=d===gcToday,fut=d>gcToday;
       h+='<div class="mc-cell'+(isT?' today':'')+(fut?' fut':'')+'">'+d
-        +(mi!=null?'<i class="dot" style="--mc:'+GCM[gcNames[mi]][0]+'"></i>':'')+'</div>';
+        +(mi!=null?'<i class="dot" style="--mc:'+GCM[gcNames[mi]]+'"></i>':'')+'</div>';
     }
     document.getElementById('mcGrid').innerHTML=h;
-    const dow=(gcNow.getDay()+6)%7,pts=[];
-    for(let i=0;i<7;i++){
-      const d=gcToday-dow+i,mi=gcHist[d];
-      const sc=mi!=null?GCM[gcNames[mi]][2]:3;
-      pts.push([18+i*47,62-(sc-1)*12,mi]);
+    /* 弧度周日历 */
+    const arc=document.getElementById('mcArc');
+    if(arc){
+      const dow=(gcNow.getDay()+6)%7,WD=['一','二','三','四','五','六','日'];
+      const cx=170,cy=86,rx=150,ry=46;
+      const pt=i=>{const a=(200-i*36.67)*Math.PI/180;return [cx+rx*Math.cos(a),cy-ry*Math.sin(a)];};
+      const [ax0,ay0]=pt(0),[ax1,ay1]=pt(6);
+      let h='<path class="al" d="M'+ax0+' '+ay0+' A'+rx+' '+ry+' 0 0 0 '+ax1+' '+ay1+'"/>';
+      for(let i=0;i<7;i++){
+        const [x,y]=pt(i),d=gcToday-dow+i,fut=i>dow,mi=fut?null:gcHist[d],isT=i===dow;
+        h+='<text class="wd2" x="'+x+'" y="'+(y-19)+'">'+WD[i]+'</text>';
+        if(fut){
+          h+='<circle class="fut-c" cx="'+x+'" cy="'+y+'" r="12"/>'
+            +'<text class="num" x="'+x+'" y="'+(y+3.5)+'">'+d+'</text>';
+        }else{
+          const n=mi!=null?gcNames[mi]:'平静';
+          h+=(isT?'<circle class="today-c" cx="'+x+'" cy="'+y+'" r="16"/>':'')
+            +'<g transform="translate('+(x-13)+','+(y-13)+') scale(1.083)">'+FACE[n]+'</g>'
+            +'<text class="num" x="'+x+'" y="'+(y+26)+'">'+d+'</text>';
+        }
+      }
+      arc.innerHTML=h;
     }
-    document.getElementById('mcTrend').innerHTML='<polyline points="'+pts.map(p=>p[0]+','+p[1]).join(' ')+'"/>'
-      +pts.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" fill="'+(p[2]!=null?GCM[gcNames[p[2]]][0]:'#fff')+'"/>').join('');
+    /* 表情脸选择器 */
+    const mp=document.getElementById('mcMoods');
+    mp.innerHTML=gcNames.map(n=>'<button class="m ff" data-m="'+n+'">'+faceSvg(n)+'</button>').join('');
     const sel=gcHist[gcToday];
-    document.querySelectorAll('#mcMoods .m').forEach(x=>x.classList.toggle('on',x.dataset.m===gcNames[sel]));
+    mp.querySelectorAll('.m').forEach(x=>x.classList.toggle('on',x.dataset.m===gcNames[sel]));
   }
   renderHomeGc();renderMcal();
   /* 详细页打卡 */

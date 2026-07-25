@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "心情日历紧凑卡内容放大：日期/图标/文字全面升级，双卡文字同步微调"
+MSG = "情绪可视化：5款emo表情脸（SVG手绘），详细页周日历改弧度展示，纯色背景衬托玻璃拟态"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []
