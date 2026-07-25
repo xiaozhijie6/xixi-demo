@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/app.css?v=20260726">
+<link rel="stylesheet" href="css/app.css?v=20260727">
 </head>
 <body>
 <!-- ============ 左侧演示信息栏 ============ -->
@@ -351,40 +351,74 @@
     <!-- ========== S8 每日成长内容 ========== -->
     <section class="screen" id="s-content">
 <div class="inner">
-        <div class="feat-card glass rise d1" onclick="toast('文章详情 · 演示版')">
-          <div class="pic" style="background-image:url('../assets/art/art-feat.webp'),linear-gradient(135deg,#E4E9DE,#D2DCC8)"><span class="cat">情感心理</span></div>
+        <!-- 本周主题 -->
+        <div class="gr-theme rise d1">
+          <div class="lb">本周主题 · WEEKLY THEME</div>
+          <b>职场与人际关系经营</b>
+          <div class="tm"><span data-weekrange>7月20日 – 7月26日</span> · 每周一更新 · 已更新 6 篇</div>
+        </div>
+
+        <!-- 主题封面文章 -->
+        <div class="gr-feat rise d2" onclick="toast('文章详情 · 演示版')">
+          <div class="cov" style="background-image:url('../assets/art/art-feat.webp'),linear-gradient(135deg,#E4E9DE,#D2DCC8)"><span class="tg">主题封面文章</span></div>
           <div class="bd">
-            <b>发现伴侣暧昧信息后，第一件事不是摊牌</b>
-            <p>情绪最汹涌的 72 小时里做的决定，往往最不利于你。先稳住自己，再选择战场。</p>
+            <b>人到中年，把关系过轻，把自己过重</b>
+            <p>我们花了二十年学会照顾所有人的情绪，却没人教我们：关系里的委屈，不该用牺牲来换。这一周的六篇文章，从职场到婚姻，聊聊「有边界的温柔」。</p>
+            <div class="gr-meta"><span class="av">西</span>西西编辑部<span data-ago="2">2天前</span>· 阅读约 8 分钟</div>
           </div>
         </div>
-        <div class="audio-bar glass rise d3" onclick="toast('音频摘要 · 演示版')">
-          <div class="pl"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
-          <div class="tx"><b>今日音频摘要 · 亲密关系修复专题</b><div class="pr"><i></i></div></div>
-          <span class="du">5'32''</span>
-        </div>
-        <div class="mini-list rise d4">
-          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
-            <div class="tx"><span class="cat c-user">用户分享</span><b>结婚第十年，我重新学会和自己相处</b><span>@阿梨 · 6分钟</span></div>
-            <span class="ar">›</span>
-          </div>
-          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
-            <div class="tx"><span class="cat c-counsel">咨询师感悟</span><b>反复想确认他还爱不爱你，可能不是爱的问题</b><span>沈若云 · 5分钟</span></div>
-            <span class="ar">›</span>
-          </div>
-          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
-            <div class="tx"><span class="cat c-law">婚姻法律</span><b>婚内财产协议，女性必须知道的3个要点</b><span>4分钟</span></div>
-            <span class="ar">›</span>
-          </div>
-          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
-            <div class="tx"><span class="cat c-family">亲子沟通</span><b>和青春期孩子说话，为什么他总是关上房门</b><span>5分钟</span></div>
-            <span class="ar">›</span>
-          </div>
-          <div class="mini-item glass" onclick="toast('文章详情 · 演示版')">
-            <div class="tx"><span class="cat c-growth">女性成长</span><b>性格太强势？温柔也可以是一种力量</b><span>6分钟</span></div>
-            <span class="ar">›</span>
+
+        <!-- 咨询师感悟 -->
+        <div class="gr-sec rise d3"><b>咨询师感悟</b><span>每周三、五更新</span></div>
+        <div class="gr-c rise d3" onclick="toast('咨询师专栏 · 演示版')">
+          <img src="../assets/avatar-c1.webp" alt="">
+          <div class="gr-cb">
+            <div class="nm">沈若云 <i>国家二级心理咨询师</i></div>
+            <div class="qt">「讨好型的人不是善良，是害怕——害怕一旦说"不"，就失去被爱的资格。经营关系的第一步，是允许别人对你失望。」</div>
+            <div class="dt" data-ago="3">3天前</div>
           </div>
         </div>
+        <div class="gr-c rise d3" onclick="toast('咨询师专栏 · 演示版')">
+          <img src="../assets/avatar-c2.webp" alt="">
+          <div class="gr-cb">
+            <div class="nm">周砚秋 <i>婚姻家庭治疗师</i></div>
+            <div class="qt">「职场里九成的内耗，来自把别人的课题背在自己身上。分清"他的事"和"我的事"，是中年人最省心的能力。」</div>
+            <div class="dt" data-ago="5">5天前</div>
+          </div>
+        </div>
+
+        <!-- 用户分享 -->
+        <div class="gr-sec rise d4"><b>用户分享</b><span>来自同路人的真实记录</span></div>
+        <div class="gr-u rise d4">
+          <div class="uv" style="background:#E8CBD3;color:#A96678">梨</div>
+          <div class="gr-ub">
+            <div class="nm">阿梨 <span class="tm" data-ago="0">今天</span></div>
+            <div class="ct">38岁，结婚11年。昨天第一次拒绝了婆婆临时带娃的要求，紧张得手心出汗，但说完之后，天没塌。原来边界感是练出来的。</div>
+            <div class="ft"><span>♡ 236</span><span>评论 41</span><span>转发 12</span></div>
+          </div>
+        </div>
+        <div class="gr-u rise d4">
+          <div class="uv" style="background:#D5DCC9;color:#7C8F6E">麦</div>
+          <div class="gr-ub">
+            <div class="nm">麦田 <span class="tm" data-ago="1">昨天</span></div>
+            <div class="ct">部门例会照着文章里的方法，把"随便"换成了"我建议"。被采纳的那一刻突然明白：温柔和没主见，从来不是一回事。</div>
+            <div class="ft"><span>♡ 189</span><span>评论 23</span><span>转发 8</span></div>
+          </div>
+        </div>
+        <div class="gr-u rise d4">
+          <div class="uv" style="background:#D9CFE6;color:#8D7FB8">转</div>
+          <div class="gr-ub">
+            <div class="nm">42岁的转身 <span class="tm" data-ago="3">3天前</span></div>
+            <div class="ct">打卡第21天。以前每天睡前反复想白天说错的话，现在写下来三行字就睡。安睡不是别人给的，是自己肯放过自己。</div>
+            <div class="ft"><span>♡ 412</span><span>评论 56</span><span>转发 31</span></div>
+          </div>
+        </div>
+
+        <!-- 往期主题 -->
+        <div class="gr-sec rise d4"><b>往期主题</b><span>全部 24 期</span></div>
+        <div class="gr-past rise d4"><b>婚姻里的沟通修复</b><span>8 篇 ›</span></div>
+        <div class="gr-past rise d4"><b>独处的能力</b><span>6 篇 ›</span></div>
+        <div class="gr-past rise d4"><b>和青春期的孩子相处</b><span>7 篇 ›</span></div>
       </div>
     </section>
 
@@ -542,6 +576,6 @@
     <div class="toast" id="toast"></div>
   </div>
 </div>
-<script src="js/app.js?v=20260726" defer></script>
+<script src="js/app.js?v=20260727" defer></script>
 </body>
 </html>

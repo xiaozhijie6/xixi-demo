@@ -892,3 +892,16 @@ const HOME_MOOD_REPLY={
   /* 冥想 */
   document.getElementById('homeMed').addEventListener('click',()=>toast('3 分钟呼吸练习即将开始（演示）'));
 })();
+
+/* ---- 成长页：周区间与相对时间按真实日期同步 ---- */
+(function(){
+  const now=new Date(),dow=(now.getDay()+6)%7;
+  const mon=new Date(now);mon.setDate(now.getDate()-dow);
+  const sun=new Date(now);sun.setDate(now.getDate()-dow+6);
+  const f=d=>(d.getMonth()+1)+'月'+d.getDate()+'日';
+  document.querySelectorAll('[data-weekrange]').forEach(e=>e.textContent=f(mon)+' – '+f(sun));
+  document.querySelectorAll('[data-ago]').forEach(e=>{
+    const n=+e.dataset.ago;
+    e.textContent=n===0?'今天':n===1?'昨天':n+'天前';
+  });
+})();

@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "修复toast：穿透点击不挡功能键，时长2.2s降至1.6s"
+MSG = "成长页改版：公众号式排版（本周主题/封面文章/咨询师感悟/用户分享/往期主题），真实内容，时间按真实日期同步"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []

@@ -204,6 +204,46 @@ body{
   opacity:0;visibility:hidden;transition:.3s;white-space:nowrap;backdrop-filter:blur(8px);
   pointer-events:none;user-select:none}
 .toast.show{opacity:1;visibility:visible;transform:translateX(-50%)}
+/* ---- 成长页（公众号式排版 · 高短调） ---- */
+.gr-theme{position:relative;border-radius:26px 40px 24px 36px;overflow:hidden;padding:18px 20px;
+  background:linear-gradient(135deg,#E9D9E2,#DDE0EF);box-shadow:var(--shadow)}
+.gr-theme::after{content:'';position:absolute;right:-34px;top:-34px;width:150px;height:150px;border-radius:50%;
+  background:rgba(255,255,255,.22)}
+.gr-theme .lb{font-size:9px;letter-spacing:.24em;color:var(--rose-deep);font-weight:700}
+.gr-theme b{display:block;font-family:var(--serif);font-size:19px;font-weight:900;margin-top:8px;color:#4E3E47}
+.gr-theme .tm{margin-top:9px;font-size:10px;color:var(--ink-2)}
+.gr-feat{margin-top:14px;background:#fff;border-radius:24px 18px 30px 20px;overflow:hidden;
+  box-shadow:var(--shadow);cursor:pointer}
+.gr-feat .cov{height:148px;background-size:cover;background-position:center;position:relative}
+.gr-feat .cov .tg{position:absolute;left:13px;bottom:11px;font-size:9.5px;font-weight:700;color:var(--rose-deep);
+  background:rgba(255,255,255,.92);border-radius:999px;padding:4px 11px}
+.gr-feat .bd{padding:14px 17px 15px}
+.gr-feat .bd>b{font-family:var(--serif);font-size:16.5px;line-height:1.5;font-weight:900}
+.gr-feat .bd>p{font-size:12px;color:var(--ink-2);line-height:1.8;margin-top:8px}
+.gr-meta{display:flex;align-items:center;gap:6px;margin-top:11px;font-size:10px;color:var(--ink-3)}
+.gr-meta .av{width:19px;height:19px;border-radius:50%;background:var(--rose-soft,#F6E7EB);color:var(--rose-deep);
+  font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.gr-sec{display:flex;align-items:baseline;justify-content:space-between;margin:20px 2px 10px}
+.gr-sec b{font-family:var(--serif);font-size:15px;font-weight:700}
+.gr-sec span{font-size:10px;color:var(--ink-3)}
+.gr-c{display:flex;gap:11px;background:#fff;border-radius:20px 26px 20px 26px;padding:13px 15px;
+  box-shadow:var(--shadow-s,0 8px 24px rgba(170,135,150,.09));cursor:pointer;margin-bottom:10px}
+.gr-c img{width:40px;height:40px;border-radius:50%;flex:none}
+.gr-c .nm{font-size:11.5px;font-weight:700}
+.gr-c .nm i{font-style:normal;font-size:9.5px;color:var(--ink-3);font-weight:400;margin-left:5px}
+.gr-c .qt{font-family:var(--serif);font-size:13px;line-height:1.8;margin-top:7px;color:#57424B}
+.gr-c .dt{font-size:9.5px;color:var(--ink-3);margin-top:8px}
+.gr-u{display:flex;gap:10px;background:#fff;border-radius:18px 24px 18px 24px;padding:13px 15px;
+  box-shadow:var(--shadow-s,0 8px 24px rgba(170,135,150,.09));margin-bottom:10px}
+.gr-u .uv{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700}
+.gr-u .nm{font-size:11.5px;font-weight:700}
+.gr-u .tm{font-size:9.5px;color:var(--ink-3);font-weight:400;margin-left:6px}
+.gr-u .ct{font-size:12.5px;line-height:1.8;margin-top:5px}
+.gr-u .ft{display:flex;gap:14px;margin-top:9px;font-size:10px;color:var(--ink-3)}
+.gr-past{display:flex;align-items:center;padding:12px 4px;border-bottom:1px solid rgba(140,110,125,.14);cursor:pointer}
+.gr-past b{font-size:12.5px;font-weight:500}
+.gr-past span{margin-left:auto;font-size:10px;color:var(--ink-3)}
 /* ---- 响应式：真机全屏 ---- */
 @media (max-width:560px),(max-height:900px){
   body{gap:0}
