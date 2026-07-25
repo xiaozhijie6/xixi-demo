@@ -3,8 +3,8 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "成长页接真实内容：封面文换十点读书《好的关系，都自带边界感》，新增名家书房（周国平/杨绛/蔡康永），去掉主题封面文章标签"
-CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
+MSG = "chore: 清理注释中的旧标签字样"
+CHANGED = ["demo/index.html", "tools/api_push.py"]
 ADDED = []
 DELETED = []
 
