@@ -3,7 +3,7 @@
 import base64, json, subprocess, sys
 
 REPO = "xiaozhijie6/xixi-demo"
-MSG = "心情月历详细页改版：背景收回高短调，日历/情绪拆分为上下两卡，去掉弧度改周表情脸横排"
+MSG = "卡片形状个性化：金句卡微倾不对称圆角、日历卡鹅卵石、冥想圆拱顶、助眠反拱、详细页双卡异形，资源版本号v20260725"
 CHANGED = ["demo/index.html", "demo/css/app.css", "demo/js/app.js", "tools/api_push.py"]
 ADDED = []
 DELETED = []

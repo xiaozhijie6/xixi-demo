@@ -250,8 +250,10 @@ body{
 .hbub .eq i:nth-child(3){height:6px;animation-delay:.3s}
 .hbub .eq i:nth-child(4){height:9px;animation-delay:.45s}
 @keyframes h3eq{0%,100%{transform:scaleY(.5)}50%{transform:scaleY(1.15)}}
-.qrow{position:relative;display:flex;background:linear-gradient(120deg,#FCF6EA,#F6EBF0);border-radius:22px;
-  box-shadow:var(--shadow);overflow:hidden;cursor:pointer;flex:none;height:196px}
+.qrow{position:relative;display:flex;background:linear-gradient(120deg,#FCF6EA,#F6EBF0);
+  border-radius:44px 20px 40px 22px;
+  box-shadow:var(--shadow);overflow:hidden;cursor:pointer;flex:none;height:196px;
+  transform:rotate(.6deg)}
 .qrow .qt-side{flex:1;min-width:0;padding:16px 6px 14px 18px;display:flex;flex-direction:column}
 .qrow .q-lb{font-size:9px;letter-spacing:.22em;color:var(--ink-3);font-weight:600}
 .qrow .q-txt{font-family:var(--serif);font-size:15.5px;font-weight:700;line-height:1.75;margin-top:9px;text-wrap:balance}
@@ -271,11 +273,15 @@ body{
 .h3-grid{display:flex;gap:10px;margin-top:16px;flex:none;align-items:stretch}
 .h3-duo.duo-col{flex-direction:column;gap:10px;margin-top:0;flex:1}
 .h3-duo.duo-col .ph{height:auto;flex:1}
-.gcal{position:relative;border-radius:24px;overflow:hidden;flex:1.12;min-width:0;cursor:pointer;
+.h3-duo.duo-col .ph:first-child{border-radius:52px 52px 18px 18px}
+.h3-duo.duo-col .ph:last-child{border-radius:18px 18px 44px 44px}
+.gcal{position:relative;overflow:hidden;flex:1.12;min-width:0;cursor:pointer;
+  border-radius:22px 34px 26px 38px;
+  transform:rotate(-.8deg);
   box-shadow:0 20px 45px rgba(150,125,135,.22)}
 .gcal .gc-bg{position:absolute;inset:0;
   background:linear-gradient(rgba(250,247,243,.58),rgba(250,247,243,.58)),url('../../assets/conc-botanic.webp') center/cover}
-.gcal .gc-in{position:relative;margin:1.5px;border-radius:23px;padding:16px 17px;height:calc(100% - 3px);
+.gcal .gc-in{position:relative;margin:1.5px;border-radius:21px 32px 24px 36px;padding:16px 17px;height:calc(100% - 3px);
   display:flex;flex-direction:column;
   background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.22));
   backdrop-filter:blur(14px) saturate(1.25);-webkit-backdrop-filter:blur(14px) saturate(1.25);
@@ -296,8 +302,10 @@ body{
   border-radius:999px;padding:4px 12px;backdrop-filter:blur(6px)}
 .gcal .gc-more{font-size:11px;color:var(--ink-2)}
 /* ---- 月历详细页 ---- */
-.gcal.mcal{flex:none;cursor:default}
-.gcal.mcal .gc-in{padding:16px}
+.gcal.mcal{flex:none;cursor:default;transform:none;border-radius:34px 22px 30px 24px}
+.gcal.mmood{transform:rotate(.6deg);border-radius:24px 36px 22px 34px}
+.gcal.mcal .gc-in{padding:16px;border-radius:32px 21px 28px 22px}
+.gcal.mmood .gc-in{border-radius:22px 34px 20px 32px}
 .mc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
 .mc-head b{font-family:var(--serif);font-size:16px;color:#57424B}
 .wk-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
